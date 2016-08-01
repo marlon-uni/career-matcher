@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -16,5 +17,10 @@ namespace Careermatcher.Models
         [Key]
         public string email { get; set; }
         public int phoneNumber { get; set; }
+    }
+
+    public class EmployeeDBContext : DbContext
+    {
+        public DbSet<Employee> Employees { get; set; }
     }
 }
