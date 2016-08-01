@@ -8,5 +8,6 @@ namespace Careermatcher.Models
     public class Employee
     {
         public int ID { get; set; }
+        public int MyProperty { get; set; }
     }
 }
