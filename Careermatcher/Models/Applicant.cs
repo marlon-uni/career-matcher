@@ -7,19 +7,17 @@ using System.Web;
 
 namespace Careermatcher.Models
 {
-    public class Employee
+    public class Applicant
     {
         public string firstName { get; set; }
-        public int lastName { get; set; }
-        public string Company { get; set; }
-        public string Position { get; set; }
+        public string lastName { get; set; }
         [Key]
         public string email { get; set; }
         public int phoneNumber { get; set; }
+        public int MyProperty { get; set; }
     }
-
-    public class EmployeeDBContext : DbContext
+    public class ApplicantDBContext : DbContext
     {
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Applicant> Applicants { get; set; }
     }
 }

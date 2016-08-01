@@ -46,7 +46,7 @@ namespace Careermatcher.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "email,ID,userName,Name,Company,Position,phoneNumber")] Employee employee)
+        public ActionResult Create([Bind(Include = "email,firstName,lastName,Company,Position,phoneNumber")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace Careermatcher.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "email,ID,userName,Name,Company,Position,phoneNumber")] Employee employee)
+        public ActionResult Edit([Bind(Include = "email,firstName,lastName,Company,Position,phoneNumber")] Employee employee)
         {
             if (ModelState.IsValid)
             {
