@@ -10,5 +10,7 @@ namespace Careermatcher
         {
             ConfigureAuth(app);
         }
+
+ 
     }
 }
