@@ -1,11 +1,11 @@
-﻿@model IEnumerable<Careermatcher.Models.Employee>
+﻿@model IEnumerable<Careermatcher.Models.Applicant>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Employee</h2>
+<h2>Applicant</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -19,13 +19,10 @@
             @Html.DisplayNameFor(model => model.lastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Company)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Position)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.phoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MyProperty)
         </th>
         <th></th>
     </tr>
@@ -39,13 +36,10 @@
             @Html.DisplayFor(modelItem => item.lastName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Company)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Position)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.phoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MyProperty)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.email }) |

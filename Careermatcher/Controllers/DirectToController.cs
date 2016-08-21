@@ -23,10 +23,12 @@ namespace Careermatcher.Controllers
             Session["userValue"] = "Applicant";
             return RedirectToAction("LogIn", "Account", new { area = "" });
         }
-        public String Decider()
+        public ActionResult Decider()
         {
-
-            return User.Identity.Name;
+            //User.Identity.Name;
+            if (User.IsInRole("Employee")==true)
+                return RedirectToAction("Index", "Employee", new { area = "" });
+            return RedirectToAction("Index", "Applicant", new { area = "" });
         }
     }
 }
