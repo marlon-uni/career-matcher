@@ -27,7 +27,7 @@ namespace Careermatcher.Controllers
         {
             //User.Identity.Name;
             if (User.IsInRole("Employee")==true)
-                return RedirectToAction("Index", "Employee", new { area = "" });
+                return RedirectToAction("HomePage", "Employee", new { area = "" });
             return RedirectToAction("Index", "Applicant", new { area = "" });
         }
     }

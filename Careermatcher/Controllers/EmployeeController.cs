@@ -17,7 +17,30 @@ namespace Careermatcher.Controllers
         // GET: Employee
         public ActionResult Index()
         {
+            var query = from contact in db.Employees
+                        where contact.email == User.Identity.Name
+                        select contact;
+           
+
             return View(db.Employees.ToList());
+        }
+        public ActionResult HomePage()
+        {
+            var query = from contact in db.Employees
+                        where contact.email == User.Identity.Name
+                        select contact;
+            var query1 = from contact in db.Employees
+                        where contact.email == User.Identity.Name
+                        select contact;
+            var list = query1.ToList();
+
+            bool has = list.Any(cus => cus.email == User.Identity.Name);
+            if(has==false)
+            {
+                Console.Out.WriteLine("Apples");
+            }
+
+            return View(query.ToList());
         }
 
         // GET: Employee/Details/5
@@ -48,6 +71,7 @@ namespace Careermatcher.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "email,firstName,lastName,Company,Position,phoneNumber")] Employee employee)
         {
+            employee.email = "";
             if (ModelState.IsValid)
             {
                 db.Employees.Add(employee);
