@@ -1,4 +1,4 @@
-﻿@model Careermatcher.Models.Employee
+﻿@model Careermatcher.Models.Employer
 
 @{
     ViewBag.Title = "Edit";
@@ -13,7 +13,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Employee</h4>
+        <h4>Employer</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.email)

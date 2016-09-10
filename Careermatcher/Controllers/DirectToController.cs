@@ -13,9 +13,13 @@ namespace Careermatcher.Controllers
         {
             return View();
         }
-        public ActionResult Employee()
+        //public ActionResult Homepage()
+        //{
+        //    return View();
+        //}
+        public ActionResult Employer()
         {
-            Session["userValue"] = "Employee";
+            Session["userValue"] = "Employer";
             return RedirectToAction("LogIn", "Account", new { area = "" });
         }
         public ActionResult Applicant()
@@ -26,8 +30,8 @@ namespace Careermatcher.Controllers
         public ActionResult Decider()
         {
             //User.Identity.Name;
-            if (User.IsInRole("Employee")==true)
-                return RedirectToAction("HomePage", "Employee", new { area = "" });
+            if (User.IsInRole("Employer")==true)
+                return RedirectToAction("HomePage", "Employer", new { area = "" });
             return RedirectToAction("Index", "Applicant", new { area = "" });
         }
     }

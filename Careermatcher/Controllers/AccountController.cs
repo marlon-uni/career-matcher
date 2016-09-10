@@ -72,14 +72,23 @@ namespace Careermatcher.Controllers
             {
                 return View(model);
             }
-            
+            String usertype = (String)Session["userValue"];
+            if (usertype == null)
+                return RedirectToAction("Decider", "DirectToController");
+
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //if (usertype == "Employer")
+                    //    return RedirectToAction("Index", "Employer");
+                    //if (usertype == "Applicant")
+                    //    return RedirectToAction("Index", "Employer");
+
+                    return RedirectToAction("Decider", "DirectTo");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -158,8 +167,8 @@ namespace Careermatcher.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                   if(usertype== "Employee")
-                    result = UserManager.AddToRole(user.Id, "Employee");
+                   if(usertype== "Employer")
+                    result = UserManager.AddToRole(user.Id, "Employer");
                    if(usertype=="Applicant")
                         result = UserManager.AddToRole(user.Id, "Applicant");
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -169,7 +178,7 @@ namespace Careermatcher.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     //return RedirectToAction("Index", "Home");
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Decider", "DirectTo");
                 }
                 AddErrors(result);
             }
@@ -398,7 +407,8 @@ namespace Careermatcher.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            Session["userValue"] = "";
+            return RedirectToAction("Index", "DirectTo");
         }
 
         //
