@@ -54,6 +54,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.email }) |
-    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.email }) |
+    @Html.ActionLink("Back to List", "Index")*@
+    @Html.ActionLink("Edit", "Edit", "Employer", routeValues: null, htmlAttributes: new { id = "registerLink" })
 </p>

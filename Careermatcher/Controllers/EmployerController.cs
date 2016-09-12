@@ -13,16 +13,51 @@ namespace Careermatcher.Controllers
     public class EmployerController : Controller
     {
         private EmployerDBContext db = new EmployerDBContext();
+        public ActionResult SelectCategory()
+        {
 
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "Action", Value = "0" });
+
+            items.Add(new SelectListItem { Text = "Drama", Value = "1" });
+
+            items.Add(new SelectListItem { Text = "Comedy", Value = "2", Selected = true });
+
+            items.Add(new SelectListItem { Text = "Science Fiction", Value = "3" });
+
+            ViewBag.MovieType = items;
+
+            return View();
+
+        }
+        public String CategoryChosen(string MovieType)
+        {
+
+            ViewBag.messageString = MovieType;
+
+            return MovieType;
+
+        }
         // GET: Employer
         public ActionResult Index()
         {
             return View(db.Employers.ToList());
         }
 
+        public ActionResult Homepage()
+        {
+            Employer employer = db.Employers.Find(User.Identity.Name);
+            if(employer==null)
+                return RedirectToAction("Create", "Employer");
+
+            return View(employer);
+        }
+
         // GET: Employer/Details/5
         public ActionResult Details(string id)
         {
+            id = User.Identity.Name;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,7 +73,9 @@ namespace Careermatcher.Controllers
         // GET: Employer/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Identification = User.Identity.Name;
+            Employer employer = new Employer { email = User.Identity.Name };
+            return View(employer);
         }
 
         // POST: Employer/Create
@@ -48,6 +85,7 @@ namespace Careermatcher.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "email,firstName,lastName,Company,Position,phoneNumber")] Employer employer)
         {
+            //employer.email = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 db.Employers.Add(employer);
@@ -61,6 +99,7 @@ namespace Careermatcher.Controllers
         // GET: Employer/Edit/5
         public ActionResult Edit(string id)
         {
+            id = User.Identity.Name;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
