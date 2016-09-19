@@ -30,9 +30,11 @@ namespace Careermatcher.Controllers
         public ActionResult Decider()
         {
             //User.Identity.Name;
-            if (User.IsInRole("Employer")==true)
+            String RoleType = (String)Session["userValue"];
+            
+            if (RoleType=="Employer")
                 return RedirectToAction("HomePage", "Employer", new { area = "" });
-            return RedirectToAction("Index", "Applicant", new { area = "" });
+            return RedirectToAction("Index", RoleType, new { area = "" });
         }
     }
 }
