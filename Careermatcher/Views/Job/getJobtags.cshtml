@@ -1,0 +1,77 @@
+﻿@model Careermatcher.Models.DropDown
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2 style="margin-top:60px;">Education Requirements</h2>
+
+
+@Html.Label("Please select the eduacation requirements of the Applicant")<br />
+@*<form>*@
+
+@using (@Html.BeginForm("Index", "Job", FormMethod.Post))
+{
+    string SelectedValue = "";
+    //Html.HiddenFor(m => m.Value, SelectedValue);
+
+    <select id="groupselect" name="groupselect" class="chosen-group-select" style="width:200px;" multiple>
+        <option value="0">--Select--</option>
+
+        @foreach (var item in Model.ParentDataModel)
+        {
+
+            <optgroup label="@item.ParentName">
+                @{
+                    var childfilter = Model.ClildDataModel.Where(m => m.ParentId == item.ParentId);
+
+                    if (childfilter != null)
+                    {
+
+                        foreach (var childitems in childfilter)
+                        {
+
+                            if (Model.SelectedValue == childitems.ChildId)
+                            {
+                                SelectedValue = "selected='selected'";
+                            }
+
+                            <option id="item" value="@childitems.ChildId" @SelectedValue>@childitems.ChildName </option>
+
+
+                        }
+                    }
+
+                }
+
+            </optgroup>
+
+                    }
+    </select>
+
+    <input type="submit" value="Save" />
+                    }
+@*</form>*@
+
+<link href="~/Content/Bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/chosen.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    //alert("dsfdf");
+    //    $(".chosen-select-single").chosen();
+    //    $(".chosen-select-multiple").chosen();
+    //    $(".chosen-group-select").chosen();
+    //    $(".chosen-group-multiple-select").chosen();
+    //});
+    ; (function ($) {
+        $(".chosen-select-single").chosen();
+        $(".chosen-select-multiple").chosen();
+        $(".chosen-group-select").chosen();
+        $(".chosen-group-multiple-select").chosen();
+    })(jQuery)
+</script>
