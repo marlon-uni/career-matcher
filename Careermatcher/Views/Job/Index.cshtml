@@ -1,76 +1,53 @@
-﻿@model Careermatcher.Models.DropDown
+﻿@model IEnumerable<Careermatcher.Models.Job>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2>Applicant</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PublishDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Education)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tags)
+        </th>
+        <th></th>
+    </tr>
 
-<h2 style="margin-top:60px;">Education Requirements</h2>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublishDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Education)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EmployerEmailAddress }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EmployerEmailAddress }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EmployerEmailAddress })
+            </td>
+        </tr>
+    }
 
-
-@Html.Label("Please select the eduacation requirements of the Applicant")<br />
-@*<form>*@
-
-@using (@Html.BeginForm("Index", "Job", FormMethod.Post)){
-   string SelectedValue = "";
-   //Html.HiddenFor(m => m.Value, SelectedValue);
-    
-    <select id="groupselect" name="groupselect" class="chosen-group-select" style="width:200px;" multiple>
-        <option value="0">--Select--</option>
-        
-        @foreach (var item in Model.ParentDataModel)
-        {
-            
-            <optgroup label="@item.ParentName">
-                @{
-                    var childfilter = Model.ClildDataModel.Where(m => m.ParentId == item.ParentId);
-
-                    if (childfilter != null)
-                    {
-                        
-                        foreach (var childitems in childfilter)
-                        {
-
-                            if (Model.SelectedValue == childitems.ChildId)
-                            {
-                                SelectedValue = "selected='selected'";
-                            }
-
-                        <option id="item" value="@childitems.ChildId" @SelectedValue>@childitems.ChildName </option>
-
-                            
-                        }
-                    }
-                   
-                }
-                
-            </optgroup>
-            
-                    }
-    </select>
-   
-    <input type="submit" value="Save" />
-}
-@*</form>*@
-
-<link href="~/Content/Bootstrap.min.css" rel="stylesheet" />
-<link href="~/Content/chosen.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/chosen.jquery.min.js"></script>
-<script type="text/javascript">
-    //$(document).ready(function () {
-    //    //alert("dsfdf");
-    //    $(".chosen-select-single").chosen();
-    //    $(".chosen-select-multiple").chosen();
-    //    $(".chosen-group-select").chosen();
-    //    $(".chosen-group-multiple-select").chosen();
-    //});
-    ; (function ($) {
-        $(".chosen-select-single").chosen();
-        $(".chosen-select-multiple").chosen();
-        $(".chosen-group-select").chosen();
-        $(".chosen-group-multiple-select").chosen();
-    })(jQuery)
-</script>
+</table>

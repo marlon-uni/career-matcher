@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutApplicant.cshtml";
 }
 
-<h2>Applicant</h2>
+<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -22,7 +22,10 @@
             @Html.DisplayNameFor(model => model.phoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MyProperty)
+            @Html.DisplayNameFor(model => model.Education)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IntrestedJobs)
         </th>
         <th></th>
     </tr>
@@ -39,7 +42,10 @@
             @Html.DisplayFor(modelItem => item.phoneNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MyProperty)
+            @Html.DisplayFor(modelItem => item.Education)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IntrestedJobs)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.email }) |

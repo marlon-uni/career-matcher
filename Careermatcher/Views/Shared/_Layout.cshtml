@@ -22,8 +22,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Employer", "HomePage", "Employer")</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "Employer")</li>
-                    <li>@Html.ActionLink("Create a New Job listing", "Index", "Job")</li>
+                    <li>@Html.ActionLink("Profile", "Index", "Employer")</li>
+                    <li>@Html.ActionLink("View Jobs", "Index","Job")</li>
+                    <li>@Html.ActionLink("Create a New Job listing", "Index2", "Job")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

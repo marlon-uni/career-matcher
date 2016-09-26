@@ -23,28 +23,28 @@ namespace Careermatcher.Controllers
         // GET: Job
         public ActionResult Index()
         {
-            DropDown objData = new DropDown();
-            //create object data for DropdownModel
-            objData.ParentDataModel = new List<Parent>();
-            objData.ClildDataModel = new List<Child>();
+            //DropDown objData = new DropDown();
+            ////create object data for DropdownModel
+            //objData.ParentDataModel = new List<Parent>();
+            //objData.ClildDataModel = new List<Child>();
 
-            objData.ParentDataModel = GetParentData();
-            objData.ClildDataModel = GetChildData();
+            //objData.ParentDataModel = GetParentData();
+            //objData.ClildDataModel = GetChildData();
 
+            return View(db.Jobs.ToList());
 
-
-            return View(objData);
+           // return View(objData);
         }
-        [HttpPost]
-        public String Index(items[] groupselect)
-        {
-            String text = "";
-            for(int i=0;i<groupselect.Length;i++)
-            {
-                text+=groupselect[i].ToString()+",";
-            }
-            return text;
-        }
+        //[HttpPost]
+        //public String Index(items[] groupselect)
+        //{
+        //    String text = "";
+        //    for(int i=0;i<groupselect.Length;i++)
+        //    {
+        //        text+=groupselect[i].ToString()+",";
+        //    }
+        //    return text;
+        //}
         public ActionResult Index2()
         {
             DropDown objData = new DropDown();
@@ -54,12 +54,46 @@ namespace Careermatcher.Controllers
 
             objData.ParentDataModel = GetParentData();
             objData.ClildDataModel = GetChildData();
+            DropDown objData2 = new DropDown();
+            objData2.ParentDataModel = GetParentData_Jobs();
+            objData2.ClildDataModel = GetChildData_Jobs();
+            DropDown_Collection requirements = new DropDown_Collection();
+            requirements.dropDownOne= objData;
+            requirements.dropDownTwo = objData2;
 
-
-
-            return View(objData);
+            return View(requirements);
         }
+        [HttpPost]
+        public ActionResult Index2(String Title, String[] groupselect,String[] groupselect2)
+        {
+            //String text = "";
+            //for (int i = 0; i < groupselect.Length; i++)
+            //{
+            //    text += groupselect[i].ToString() + ",";
+            //}
+            //return text;
+            JobRequirements requirements = new JobRequirements();
+            requirements.EducationString = groupselect;
+            requirements.JobString = groupselect2;
+            DateTime currentTime = DateTime.Now;
+            Job job = new Job
+            {
+                EmployerEmailAddress = User.Identity.Name,
+                JobTitle = Title,
+                Education = string.Join(" ", groupselect),
+                Tags = string.Join(" ", groupselect2),
+                PublishDate=currentTime
+                
+            };
+            
 
+            if (ModelState.IsValid)
+            {
+                db.Jobs.Add(job);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Job", new { area = "" });
+        }
 
         public ActionResult getJobtags()
         {
@@ -81,7 +115,7 @@ namespace Careermatcher.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Job job = db.Applicants.Find(id);
+            Job job = db.Jobs.Find(id);
             if (job == null)
             {
                 return HttpNotFound();
@@ -104,7 +138,7 @@ namespace Careermatcher.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Applicants.Add(job);
+                db.Jobs.Add(job);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -119,7 +153,7 @@ namespace Careermatcher.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Job job = db.Applicants.Find(id);
+            Job job = db.Jobs.Find(id);
             if (job == null)
             {
                 return HttpNotFound();
@@ -150,7 +184,7 @@ namespace Careermatcher.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Job job = db.Applicants.Find(id);
+            Job job = db.Jobs.Find(id);
             if (job == null)
             {
                 return HttpNotFound();
@@ -163,8 +197,8 @@ namespace Careermatcher.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Job job = db.Applicants.Find(id);
-            db.Applicants.Remove(job);
+            Job job = db.Jobs.Find(id);
+            db.Jobs.Remove(job);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

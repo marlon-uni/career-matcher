@@ -15,8 +15,12 @@ namespace Careermatcher.Controllers
         private ApplicantDBContext db = new ApplicantDBContext();
 
         // GET: Applicant
+        [Authorize(Roles = "Applicant")]
         public ActionResult Index()
         {
+            Applicant applicant = db.Applicants.Find(User.Identity.Name);
+            if (applicant == null)
+                return RedirectToAction("Create", "Applicant");
             return View(db.Applicants.ToList());
         }
 
@@ -46,7 +50,7 @@ namespace Careermatcher.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "email,firstName,lastName,phoneNumber,MyProperty")] Applicant applicant)
+        public ActionResult Create([Bind(Include = "email,firstName,lastName,phoneNumber,Education,IntrestedJobs")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +82,7 @@ namespace Careermatcher.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "email,firstName,lastName,phoneNumber,MyProperty")] Applicant applicant)
+        public ActionResult Edit([Bind(Include = "email,firstName,lastName,phoneNumber,Education,IntrestedJobs")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {

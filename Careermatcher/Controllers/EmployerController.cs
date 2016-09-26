@@ -44,7 +44,7 @@ namespace Careermatcher.Controllers
         {
             return View(db.Employers.ToList());
         }
-
+        [Authorize(Roles = "Employer")]
         public ActionResult Homepage()
         {
             Employer employer = db.Employers.Find(User.Identity.Name);
