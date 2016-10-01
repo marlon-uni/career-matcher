@@ -74,7 +74,7 @@ namespace Careermatcher.Controllers
             }
             String usertype = (String)Session["userValue"];
             if (usertype == null)
-                return RedirectToAction("Decider", "DirectToController");
+                return RedirectToAction("Decider", "DirectTo");
 
 
             // This doesn't count login failures towards account lockout

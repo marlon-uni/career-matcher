@@ -29,6 +29,7 @@ namespace Careermatcher.Models
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
         [DisplayName("Phone Number")]
         [DataType(DataType.PhoneNumber)]
+        public int MyProperty { get; set; }
         public string phoneNumber { get; set; }
     }
 

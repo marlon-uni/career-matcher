@@ -22,11 +22,11 @@ namespace Careermatcher.Models
         [DisplayName("Email Address")]
         [EmailAddress]
         public string email { get; set; }//needs to check for exsisting email address, dbs may actually throw smothing if there is a duplicate key
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
         [DisplayName("Phone Number")]
-        [DataType(DataType.PhoneNumber)]
-        public int phoneNumber { get; set; }
+        public string phoneNumber { get; set; }
+        [DisplayName("Your Education")]
         public String Education { get; set; }
+        [DisplayName("Job tags")]
         public String IntrestedJobs { get; set; }
     }
     public class ApplicantDBContext : DbContext

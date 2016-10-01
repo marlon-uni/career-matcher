@@ -45,6 +45,7 @@ namespace Careermatcher.Controllers
         //    }
         //    return text;
         //}
+        //For employer
         public ActionResult Index2()
         {
             DropDown objData = new DropDown();
@@ -63,6 +64,7 @@ namespace Careermatcher.Controllers
 
             return View(requirements);
         }
+        //For employer
         [HttpPost]
         public ActionResult Index2(String Title, String[] groupselect,String[] groupselect2)
         {
@@ -94,6 +96,60 @@ namespace Careermatcher.Controllers
             }
             return RedirectToAction("Index", "Job", new { area = "" });
         }
+
+        //For Applicant
+        public ActionResult getJobAndEducationInformation()
+        {
+            DropDown objData = new DropDown();
+            //create object data for DropdownModel
+            objData.ParentDataModel = new List<Parent>();
+            objData.ClildDataModel = new List<Child>();
+
+            objData.ParentDataModel = GetParentData();
+            objData.ClildDataModel = GetChildData();
+            DropDown objData2 = new DropDown();
+            objData2.ParentDataModel = GetParentData_Jobs();
+            objData2.ClildDataModel = GetChildData_Jobs();
+            DropDown_Collection requirements = new DropDown_Collection();
+            requirements.dropDownOne = objData;
+            requirements.dropDownTwo = objData2;
+            ViewBag.Title = "Applicant";
+            return View(requirements);
+        }
+
+        //For employer
+        [HttpPost]
+        public ActionResult getJobAndEducationInformation(String Title, String[] groupselect, String[] groupselect2)
+        {
+            //String text = "";
+            //for (int i = 0; i < groupselect.Length; i++)
+            //{
+            //    text += groupselect[i].ToString() + ",";
+            //}
+            //return text;
+            JobRequirements requirements = new JobRequirements();
+            requirements.EducationString = groupselect;
+            requirements.JobString = groupselect2;
+            DateTime currentTime = DateTime.Now;
+            Job job = new Job
+            {
+                EmployerEmailAddress = User.Identity.Name,
+                JobTitle = Title,
+                Education = string.Join(" ", groupselect),
+                Tags = string.Join(" ", groupselect2),
+                PublishDate = currentTime
+
+            };
+
+            //This needs to be changed
+            if (ModelState.IsValid)
+            {
+                db.Jobs.Add(job);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Job", new { area = "" });
+        }
+
 
         public ActionResult getJobtags()
         {

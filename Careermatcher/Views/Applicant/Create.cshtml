@@ -14,15 +14,17 @@
     <div class="form-horizontal">
         <h4>Applicant</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
+        <input type="hidden" name="email" value="@ViewBag.Identification" />
 
+       
         <div class="form-group">
             @Html.LabelFor(model => model.firstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -38,16 +40,16 @@
                 @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
+        <input type="hidden" name="phoneNumber" value="@ViewBag.phoneNumber" /> 
+        @*<div class="form-group">
             @Html.LabelFor(model => model.phoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.phoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.phoneNumber, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Education, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Education, new { htmlAttributes = new { @class = "form-control" } })
@@ -61,7 +63,9 @@
                 @Html.EditorFor(model => model.IntrestedJobs, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.IntrestedJobs, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
+        <input type="hidden" name="Education" value="@ViewBag.Education" />
+        <input type="hidden" name="IntrestedJobs" value="@ViewBag.IntrestedJobs" />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

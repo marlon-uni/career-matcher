@@ -42,7 +42,12 @@ namespace Careermatcher.Controllers
         // GET: Applicant/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Identification = User.Identity.Name;
+            ViewBag.Education = "A";
+            ViewBag.IntrestedJobs = "A";
+           ViewBag.phoneNumber = 00;
+            Applicant applicant = new Applicant { email = User.Identity.Name ,Education="A",IntrestedJobs="B" };
+            return View(applicant);
         }
 
         // POST: Applicant/Create
@@ -54,9 +59,10 @@ namespace Careermatcher.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Applicants.Add(applicant);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //db.Applicants.Add(applicant);
+                //db.SaveChanges();
+                ///return RedirectToAction("Index");
+               return RedirectToAction("getJobAndEducationInformation", "Job");
             }
 
             return View(applicant);

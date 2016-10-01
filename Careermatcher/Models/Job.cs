@@ -12,11 +12,14 @@ namespace Careermatcher.Models
     {
         [Key,Column(Order=1)]
         public string EmployerEmailAddress { get; set; }
+        [Required(ErrorMessage ="A job title is required")]
         [Key, Column(Order = 2)]
         public string JobTitle { get; set; }
         [Key, Column(Order = 3)]
         public DateTime PublishDate { get; set; }
+        [Required(ErrorMessage = "You need to select at least one Education")]
         public string Education { get; set; }
+        [Required(ErrorMessage = "Please select one or more jobs")]
         public string Tags { get; set; }
     }
 

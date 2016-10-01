@@ -306,11 +306,11 @@
     <Content Include="Views\Job\Delete.cshtml" />
     <Content Include="Views\Job\Details.cshtml" />
     <Content Include="Views\Job\Edit.cshtml" />
-    <Content Include="Views\Job\getJobtags.cshtml" />
     <Content Include="Views\Job\Index2.cshtml" />
     <Content Include="Views\Job\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutApplicant.cshtml" />
     <Content Include="Views\Shared\_LayoutClean.cshtml" />
+    <Content Include="Views\Job\getJobAndEducationInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
