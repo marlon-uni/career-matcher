@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Careermatcher.Models;
+using System.Globalization;
 
 namespace Careermatcher.Controllers
 {
@@ -84,7 +85,7 @@ namespace Careermatcher.Controllers
                 JobTitle = Title,
                 Education = string.Join(" ", groupselect),
                 Tags = string.Join(" ", groupselect2),
-                PublishDate=currentTime
+                PublishDate=currentTime.ToString()
                 
             };
             
@@ -217,27 +218,33 @@ namespace Careermatcher.Controllers
         }
 
         // GET: Job/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(String id,String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Job job = db.Jobs.Find(id);
-            if (job == null)
-            {
-                return HttpNotFound();
-            }
-            return View(job);
+            String timeandDate = id + Hour + Minute + Seconds;
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime jobPublishdate;
+            if (Seconds.ToString().Length==2)
+                 jobPublishdate = DateTime.ParseExact(timeandDate, "ddMMyyyyHHmmss", provider);
+            else
+                 jobPublishdate = DateTime.ParseExact(timeandDate, "ddMMyyyyHHmms", provider);
+
+            String dateAndTime = jobPublishdate.ToString();
+            //var thisEmployersJobs = db.Jobs.Where(x => (x.PublishDate.Equals(dateAndTime)));
+            var Job = db.Jobs.Find(User.Identity.Name, jobTitle, dateAndTime);
+            return View(Job);
         }
 
         // POST: Job/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(FormCollection collection)
         {
-            Job job = db.Jobs.Find(id);
-            db.Jobs.Remove(job);
+            var jobTitle = collection["JobTitle"];
+            var publishDate = collection["publishDate"];
+            var Job = db.Jobs.Find(User.Identity.Name, jobTitle, publishDate);
+            //var Job = db.Jobs.Find(User.Identity.Name, collection., dateAndTime);
+            //Job job = db.Jobs.Find(id);
+            db.Jobs.Remove(Job);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

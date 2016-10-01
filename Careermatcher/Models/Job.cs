@@ -16,7 +16,7 @@ namespace Careermatcher.Models
         [Key, Column(Order = 2)]
         public string JobTitle { get; set; }
         [Key, Column(Order = 3)]
-        public DateTime PublishDate { get; set; }
+        public String PublishDate { get; set; }
         [Required(ErrorMessage = "You need to select at least one Education")]
         public string Education { get; set; }
         [Required(ErrorMessage = "Please select one or more jobs")]

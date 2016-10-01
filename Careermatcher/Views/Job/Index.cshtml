@@ -8,7 +8,7 @@
 <h2>Applicant</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Index2")
 </p>
 <table class="table">
     <tr>
@@ -45,7 +45,17 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.EmployerEmailAddress }) |
                 @Html.ActionLink("Details", "Details", new { id = item.EmployerEmailAddress }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.EmployerEmailAddress })
+                @Html.ActionLink("Delete", "Delete", new
+            {
+                id = item.PublishDate.AsDateTime().Date.ToString("ddMMyyyy"),
+                Hour = item.PublishDate.AsDateTime().Hour,
+                Minute = item.PublishDate.AsDateTime().Minute,
+                Seconds = item.PublishDate.AsDateTime().Second,
+                Ticks = item.PublishDate.AsDateTime().Ticks,
+                Kind = item.PublishDate.AsDateTime().Kind,
+                Millisecond = item.PublishDate.AsDateTime().Millisecond,
+                jobTitle = item.JobTitle
+            })
             </td>
         </tr>
     }

@@ -21,11 +21,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Intrest)
+            @Html.DisplayNameFor(model => model.Tags)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Intrest)
+            @Html.DisplayFor(model => model.Tags)
         </dd>
 
     </dl>
@@ -34,7 +34,12 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.HiddenFor(m => m.Education)
+            @Html.HiddenFor(m=>m.EmployerEmailAddress)
+            @Html.HiddenFor(m=>m.JobTitle)
+            @Html.HiddenFor(m=>m.PublishDate)
+            @Html.HiddenFor(m=>m.Tags)
+            <input type="submit" value="Delete" class="btn btn-default"  /> |
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
