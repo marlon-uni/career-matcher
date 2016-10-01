@@ -59,8 +59,8 @@ namespace Careermatcher.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Applicants.Add(applicant);
-                //db.SaveChanges();
+                db.Applicants.Add(applicant);
+                db.SaveChanges();
                 ///return RedirectToAction("Index");
                return RedirectToAction("getJobAndEducationInformation", "Job");
             }

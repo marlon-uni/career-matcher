@@ -121,33 +121,16 @@ namespace Careermatcher.Controllers
         [HttpPost]
         public ActionResult getJobAndEducationInformation(String Title, String[] groupselect, String[] groupselect2)
         {
-            //String text = "";
-            //for (int i = 0; i < groupselect.Length; i++)
-            //{
-            //    text += groupselect[i].ToString() + ",";
-            //}
-            //return text;
-            JobRequirements requirements = new JobRequirements();
-            requirements.EducationString = groupselect;
-            requirements.JobString = groupselect2;
-            DateTime currentTime = DateTime.Now;
-            Job job = new Job
-            {
-                EmployerEmailAddress = User.Identity.Name,
-                JobTitle = Title,
-                Education = string.Join(" ", groupselect),
-                Tags = string.Join(" ", groupselect2),
-                PublishDate = currentTime
-
-            };
+   
 
             //This needs to be changed
-            if (ModelState.IsValid)
-            {
-                db.Jobs.Add(job);
-                db.SaveChanges();
-            }
-            return RedirectToAction("Index", "Job", new { area = "" });
+            ApplicantDBContext Applicantdb = new ApplicantDBContext();
+            Applicant applicant = Applicantdb.Applicants.Find(User.Identity.Name);
+            applicant.Education = string.Join(" ", groupselect);
+            applicant.IntrestedJobs = string.Join(" ", groupselect2);
+            Applicantdb.Entry(applicant).State = EntityState.Modified;
+            Applicantdb.SaveChanges();
+            return RedirectToAction("Index", "Applicant", new { area = "" });
         }
 
 
