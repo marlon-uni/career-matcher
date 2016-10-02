@@ -25,14 +25,19 @@ namespace Careermatcher.Controllers
         };
         public String eligibleApplicants(String id, String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle, String tags, String education)
         {
+            //http://stackoverflow.com/questions/1757214/linq-entity-string-field-contains-any-of-an-array-of-strings
             ApplicantDBContext dbApplicant = new ApplicantDBContext();
             //String test = { "mustard", "pickles", "relish" };
             //var possible = dbApplicant.Applicants.Any(x => (x.Education.Contains(education)));
             //var possible = from p in dbApplicant.Applicants
             //               where search.Any(x=>p.Education.Contains);
-            var test = dbApplicant.Applicants.Where(str => str.Education.Contains(education));
+            var array = education.Split('|');
+            //var test = dbApplicant.Applicants.Any(str => str.Education.Split('|').Intersect(education.Split('|')).Any());
+            var result = from p in dbApplicant.Applicants
+                         where array.Any(val => p.Education.Contains(val))
+                     select p;
 
-            return "HMMM";
+            return result.ToString();
 
         }
 
@@ -99,7 +104,7 @@ namespace Careermatcher.Controllers
                 EmployerEmailAddress = User.Identity.Name,
                 JobTitle = Title,
                 Education = string.Join("|", groupselect),
-                Tags = string.Join(" ", groupselect2),
+                Tags = string.Join("|", groupselect2),
                 PublishDate = currentTime.ToString()
 
             };
@@ -142,8 +147,8 @@ namespace Careermatcher.Controllers
             //This needs to be changed
             ApplicantDBContext Applicantdb = new ApplicantDBContext();
             Applicant applicant = Applicantdb.Applicants.Find(User.Identity.Name);
-            applicant.Education = string.Join(" ", groupselect);
-            applicant.IntrestedJobs = string.Join(" ", groupselect2);
+            applicant.Education = string.Join("|", groupselect);
+            applicant.IntrestedJobs = string.Join("|", groupselect2);
             Applicantdb.Entry(applicant).State = EntityState.Modified;
             Applicantdb.SaveChanges();
             return RedirectToAction("Index", "Applicant", new { area = "" });
