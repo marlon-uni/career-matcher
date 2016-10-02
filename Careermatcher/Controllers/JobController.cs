@@ -31,12 +31,15 @@ namespace Careermatcher.Controllers
             //var possible = dbApplicant.Applicants.Any(x => (x.Education.Contains(education)));
             //var possible = from p in dbApplicant.Applicants
             //               where search.Any(x=>p.Education.Contains);
-            var array = education.Split('|');
+            var requriedEducationarray = education.Split('|');
+            var requriedIntrestedJobsarray = tags.Split('|');
             //var test = dbApplicant.Applicants.Any(str => str.Education.Split('|').Intersect(education.Split('|')).Any());
             var result = from p in dbApplicant.Applicants
-                         where array.Any(val => p.Education.Contains(val))
+                         where requriedEducationarray.Any(val => p.Education.Contains(val))
                      select p;
-
+            var result2 = from p in result
+                          where requriedIntrestedJobsarray.Any(val => p.IntrestedJobs.Contains(val))
+                         select p;
             return result.ToString();
 
         }
