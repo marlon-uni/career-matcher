@@ -40,6 +40,13 @@ namespace Careermatcher.Controllers
             var result2 = from p in result
                           where requriedIntrestedJobsarray.Any(val => p.IntrestedJobs.Contains(val))
                          select p;
+            foreach (var item in result)
+            {
+                //int count = requriedEducationarray.Where(val => item.Education.Contains(val)).Count();
+                var temp = item.Education.Split('|');
+                var count = requriedEducationarray.Intersect(temp).Count();
+            }
+            
             return result.ToString();
 
         }
