@@ -69,7 +69,8 @@
                Millisecond = item.PublishDate.AsDateTime().Millisecond,
                jobTitle = item.JobTitle,
                tags=item.Tags,
-               education=item.Education
+               education=item.Education,
+               time = item.PublishDate.AsDateTime()
 
            }) |
             </td>

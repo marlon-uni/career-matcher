@@ -23,7 +23,7 @@ namespace Careermatcher.Controllers
             TAFE_Advanced_diploma, TAFE_Vocational_graduate_certificate, Bachelor_degree, Bachelor_degree_honours_, Masters_degree, Doctoral_degree, Accounting, Business_policy_and_strategy, Data_Analysis_And_Statistics, Economics, Finance,
             Global_Business, Human_Resources_Management, Leadership, Marketing, Operations, Organisational_Behaviour
         };
-        public String eligibleApplicants(String id, String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle, String tags, String education)
+        public ActionResult eligibleApplicants(String id, String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle, String tags, String education,String time)
         {
             //http://stackoverflow.com/questions/1757214/linq-entity-string-field-contains-any-of-an-array-of-strings
             ApplicantDBContext dbApplicant = new ApplicantDBContext();
@@ -40,14 +40,39 @@ namespace Careermatcher.Controllers
             var result2 = from p in result
                           where requriedIntrestedJobsarray.Any(val => p.IntrestedJobs.Contains(val))
                          select p;
-            foreach (var item in result)
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
+            MatchDBContext dbMatch = new MatchDBContext();
+            foreach (var item in result2)
             {
                 //int count = requriedEducationarray.Where(val => item.Education.Contains(val)).Count();
-                var temp = item.Education.Split('|');
-                var count = requriedEducationarray.Intersect(temp).Count();
+                var educationListOfCurrentApplicant = item.Education.Split('|');
+                var countSimilarityEducation = requriedEducationarray.Intersect(educationListOfCurrentApplicant).Count();
+
+                var intrestedJobsListOfCurrentApplicant = item.IntrestedJobs.Split('|');
+                var countSimilarityIntrestedJobs = requriedIntrestedJobsarray.Intersect(intrestedJobsListOfCurrentApplicant).Count();
+
+                Match match = new Match
+                {
+                    EmployerEmailAddress = User.Identity.Name,
+                    JobTitle = jobTitle,
+                    ApplicantEmailAddress = item.email,
+                    PublishDate= jobPublishdate.ToString(),
+                    indifferenceInEducationRequirent = requriedEducationarray.Length- countSimilarityEducation,
+                    indiffernceInIntrestedJobsRequirent = requriedIntrestedJobsarray.Length - countSimilarityIntrestedJobs,
+                    acceptedByApplicant=false,
+                    acceptedByEmployer=false,
+                    rejectedByApplicant=false,
+                    rejectedByEmployer=false
+
+                };
+
+               // dbMatch.Matches.Add(match);
+                
             }
-            
-            return result.ToString();
+           // dbMatch.SaveChanges();
+
+            return View(dbMatch.Matches.ToList());
 
         }
 
@@ -254,9 +279,7 @@ namespace Careermatcher.Controllers
             //CultureInfo provider = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             //provider.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
             CultureInfo provider = CultureInfo.InvariantCulture;
-            DateTime jobPublishdate;
-
-            jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
+            DateTime jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
 
             String dateAndTime = jobPublishdate.ToString();
             //var thisEmployersJobs = db.Jobs.Where(x => (x.PublishDate.Equals(dateAndTime)));

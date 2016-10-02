@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Careermatcher.Models.Match>
+
+@{
+    ViewBag.Title = "eligibleApplicants";
+    Layout = "~/Views/Shared/_LayoutApplicant.cshtml";
+}
+
+<h2>eligibleApplicants</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicantEmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployerEmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.indiffernceInIntrestedJobsRequirent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.indifferenceInEducationRequirent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.indiffernceInIntrestedJobsRequirent)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicantEmailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployerEmailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.indiffernceInIntrestedJobsRequirent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.indifferenceInEducationRequirent)
+        </td>
+  
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
