@@ -16,22 +16,23 @@ namespace Careermatcher.Controllers
     {
         int ctr = 0;
         private JobDBContext db = new JobDBContext();
-        public enum items {
-            Primary_School_Completion=1, Yr_10_Equivalent_Completion, Yr_12_Equivalent_Completion,
+        public enum items
+        {
+            Primary_School_Completion = 1, Yr_10_Equivalent_Completion, Yr_12_Equivalent_Completion,
             VET_Certificate_I_to_IV, VET_Diploma, VET_Advanced_diploma, VET_Vocational_graduate_certificate, TAFE_Diploma,
             TAFE_Advanced_diploma, TAFE_Vocational_graduate_certificate, Bachelor_degree, Bachelor_degree_honours_, Masters_degree, Doctoral_degree, Accounting, Business_policy_and_strategy, Data_Analysis_And_Statistics, Economics, Finance,
             Global_Business, Human_Resources_Management, Leadership, Marketing, Operations, Organisational_Behaviour
         };
-        public String eligibleApplicants(String id, String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle,String tags,String education)
+        public String eligibleApplicants(String id, String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle, String tags, String education)
         {
             ApplicantDBContext dbApplicant = new ApplicantDBContext();
             //String test = { "mustard", "pickles", "relish" };
             //var possible = dbApplicant.Applicants.Any(x => (x.Education.Contains(education)));
             //var possible = from p in dbApplicant.Applicants
             //               where search.Any(x=>p.Education.Contains);
-            var test =dbApplicant.Applicants.Where(str => str.Education.Contains(education));
-         
-                return "HMMM";
+            var test = dbApplicant.Applicants.Where(str => str.Education.Contains(education));
+
+            return "HMMM";
 
         }
 
@@ -48,7 +49,7 @@ namespace Careermatcher.Controllers
             ctr++;
             return View(db.Jobs.ToList());
 
-           // return View(objData);
+            // return View(objData);
         }
         //[HttpPost]
         //public String Index(items[] groupselect)
@@ -74,14 +75,14 @@ namespace Careermatcher.Controllers
             objData2.ParentDataModel = GetParentData_Jobs();
             objData2.ClildDataModel = GetChildData_Jobs();
             DropDown_Collection requirements = new DropDown_Collection();
-            requirements.dropDownOne= objData;
+            requirements.dropDownOne = objData;
             requirements.dropDownTwo = objData2;
 
             return View(requirements);
         }
         //For employer
         [HttpPost]
-        public ActionResult Index2(String Title, String[] groupselect,String[] groupselect2)
+        public ActionResult Index2(String Title, String[] groupselect, String[] groupselect2)
         {
             //String text = "";
             //for (int i = 0; i < groupselect.Length; i++)
@@ -97,12 +98,12 @@ namespace Careermatcher.Controllers
             {
                 EmployerEmailAddress = User.Identity.Name,
                 JobTitle = Title,
-                Education = string.Join(" ", groupselect),
+                Education = string.Join("|", groupselect),
                 Tags = string.Join(" ", groupselect2),
-                PublishDate=currentTime.ToString()
-                
+                PublishDate = currentTime.ToString()
+
             };
-            
+
 
             if (ModelState.IsValid)
             {
@@ -136,7 +137,7 @@ namespace Careermatcher.Controllers
         [HttpPost]
         public ActionResult getJobAndEducationInformation(String Title, String[] groupselect, String[] groupselect2)
         {
-   
+
 
             //This needs to be changed
             ApplicantDBContext Applicantdb = new ApplicantDBContext();
@@ -232,15 +233,15 @@ namespace Careermatcher.Controllers
         }
 
         // GET: Job/Delete/5
-        public ActionResult Delete(String id,String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle)
+        public ActionResult Delete(String id, String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle, String time)
         {
-            String timeandDate = id + Hour + Minute + Seconds;
+            //String timeandDate = id + Hour + Minute + Seconds;
+            //CultureInfo provider = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            //provider.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
             CultureInfo provider = CultureInfo.InvariantCulture;
             DateTime jobPublishdate;
-            if (Seconds.ToString().Length==2)
-                 jobPublishdate = DateTime.ParseExact(timeandDate, "ddMMyyyyHHmmss", provider);
-            else
-                 jobPublishdate = DateTime.ParseExact(timeandDate, "ddMMyyyyHHmms", provider);
+
+            jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
 
             String dateAndTime = jobPublishdate.ToString();
             //var thisEmployersJobs = db.Jobs.Where(x => (x.PublishDate.Equals(dateAndTime)));
@@ -280,7 +281,7 @@ namespace Careermatcher.Controllers
             lstParent.Add(new Parent { ParentId = 4, ParentName = "Higher education — undergraduate" });
             lstParent.Add(new Parent { ParentId = 5, ParentName = "MBA and management education" });
 
-            
+
             return lstParent;
         }
         private List<Child> GetChildData()
@@ -332,7 +333,7 @@ namespace Careermatcher.Controllers
         }
         private List<Child> GetChildData_Jobs()
         {
-            
+
             List<Child> lstChild = new List<Child>();
             lstChild.Add(new Child { ParentId = 1, ChildId = 1, ChildName = "Agricultural Equipment Operator" });
             lstChild.Add(new Child { ParentId = 1, ChildId = 2, ChildName = "Agricultural Inspector" });
@@ -371,6 +372,6 @@ namespace Careermatcher.Controllers
         }
 
 
-  
+
     }
 }

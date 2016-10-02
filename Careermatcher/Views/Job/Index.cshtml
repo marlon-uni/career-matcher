@@ -55,7 +55,8 @@
                Ticks = item.PublishDate.AsDateTime().Ticks,
                Kind = item.PublishDate.AsDateTime().Kind,
                Millisecond = item.PublishDate.AsDateTime().Millisecond,
-               jobTitle = item.JobTitle
+               jobTitle = item.JobTitle,
+               time=item.PublishDate.AsDateTime()
            }) |
                 @Html.ActionLink("View Applicants", "eligibleApplicants", new
            {
