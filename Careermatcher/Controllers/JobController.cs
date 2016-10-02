@@ -11,8 +11,10 @@ using System.Globalization;
 
 namespace Careermatcher.Controllers
 {
+
     public class JobController : Controller
     {
+        int ctr = 0;
         private JobDBContext db = new JobDBContext();
         public enum items {
             Primary_School_Completion=1, Yr_10_Equivalent_Completion, Yr_12_Equivalent_Completion,
@@ -20,6 +22,18 @@ namespace Careermatcher.Controllers
             TAFE_Advanced_diploma, TAFE_Vocational_graduate_certificate, Bachelor_degree, Bachelor_degree_honours_, Masters_degree, Doctoral_degree, Accounting, Business_policy_and_strategy, Data_Analysis_And_Statistics, Economics, Finance,
             Global_Business, Human_Resources_Management, Leadership, Marketing, Operations, Organisational_Behaviour
         };
+        public String eligibleApplicants(String id, String Hour, String Minute, String Seconds, String Millisecond, String Ticks, String jobTitle,String tags,String education)
+        {
+            ApplicantDBContext dbApplicant = new ApplicantDBContext();
+            //String test = { "mustard", "pickles", "relish" };
+            //var possible = dbApplicant.Applicants.Any(x => (x.Education.Contains(education)));
+            //var possible = from p in dbApplicant.Applicants
+            //               where search.Any(x=>p.Education.Contains);
+            var test =dbApplicant.Applicants.Where(str => str.Education.Contains(education));
+         
+                return "HMMM";
+
+        }
 
         // GET: Job
         public ActionResult Index()
@@ -31,7 +45,7 @@ namespace Careermatcher.Controllers
 
             //objData.ParentDataModel = GetParentData();
             //objData.ClildDataModel = GetChildData();
-
+            ctr++;
             return View(db.Jobs.ToList());
 
            // return View(objData);
@@ -356,5 +370,7 @@ namespace Careermatcher.Controllers
             return lstChild;
         }
 
+
+  
     }
 }
