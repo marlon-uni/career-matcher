@@ -40,10 +40,25 @@ namespace Careermatcher.Controllers
             var result2 = from p in result
                           where requriedIntrestedJobsarray.Any(val => p.IntrestedJobs.Contains(val))
                          select p;
+
+            MatchDBContext dbMatch = new MatchDBContext();
+            //old matches
+            var amp = dbMatch.Matches.Where(x => (x.EmployerEmailAddress.Equals(User.Identity.Name))).Select(x => x.ApplicantEmailAddress).ToArray();
+            //var all = amp.Select(x =>x.ApplicantEmailAddress);
+            //var result2filtered = ;
+            var result3 = from p in result2
+                          where !amp.Any(val => p.email.Contains(val))
+                          select p;
+
+            if(result3.Count()==0)
+            {
+                return View(dbMatch.Matches.ToList());
+            }
             CultureInfo provider = CultureInfo.InvariantCulture;
             DateTime jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
-            MatchDBContext dbMatch = new MatchDBContext();
-            foreach (var item in result2)
+
+
+            foreach (var item in result3)
             {
                 //int count = requriedEducationarray.Where(val => item.Education.Contains(val)).Count();
                 var educationListOfCurrentApplicant = item.Education.Split('|');
@@ -58,8 +73,9 @@ namespace Careermatcher.Controllers
                     JobTitle = jobTitle,
                     ApplicantEmailAddress = item.email,
                     PublishDate= jobPublishdate.ToString(),
-                    indifferenceInEducationRequirent = requriedEducationarray.Length- countSimilarityEducation,
-                    indiffernceInIntrestedJobsRequirent = requriedIntrestedJobsarray.Length - countSimilarityIntrestedJobs,
+                    ApplicantName=item.firstName+item.lastName,
+                    indifferenceInEducationRequirment = requriedEducationarray.Length- countSimilarityEducation,
+                    indiffernceInIntrestedJobsRequirment = requriedIntrestedJobsarray.Length - countSimilarityIntrestedJobs,
                     acceptedByApplicant=false,
                     acceptedByEmployer=false,
                     rejectedByApplicant=false,
@@ -67,10 +83,10 @@ namespace Careermatcher.Controllers
 
                 };
 
-               // dbMatch.Matches.Add(match);
+                dbMatch.Matches.Add(match);
                 
             }
-           // dbMatch.SaveChanges();
+            dbMatch.SaveChanges();
 
             return View(dbMatch.Matches.ToList());
 
