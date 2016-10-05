@@ -133,5 +133,11 @@ namespace Careermatcher.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult ApplicantMatches()
+        {
+            MatchDBContext dbMatch = new MatchDBContext();
+            var thisApplicantMatches = dbMatch.Matches.Where(x => (x.ApplicantEmailAddress.Equals(User.Identity.Name)));
+            return View(thisApplicantMatches);
+        }
     }
 }

@@ -5,11 +5,9 @@
     Layout = "~/Views/Shared/_LayoutApplicant.cshtml";
 }
 
-<h2>eligibleApplicants</h2>
+<h2>Applicants</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -18,15 +16,12 @@
         <th>
             @Html.DisplayNameFor(model => model.ApplicantEmailAddress)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmployerEmailAddress)
-        </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.indifferenceInEducationRequirment)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.indifferenceInEducationRequirment)
-        </th>
+        </th>*@
  
         <th></th>
     </tr>
@@ -39,21 +34,37 @@
         <td>
             @Html.DisplayFor(modelItem => item.ApplicantEmailAddress)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmployerEmailAddress)
-        </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.indiffernceInIntrestedJobsRequirment)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.indifferenceInEducationRequirment)
-        </td>
-  
+        </td>*@
         <td>
+            @*<input type="submit" class="btn btn-primary btn-xm " value="Accept">
+            <br />
+            <input type="submit" class="btn btn-primary btn-xm glyphicon " value="Decline">*@
+            @*<a href="@Url.Action("Accept", "InvitationDecider", new { id = "apples" })" class="btn btn-success">
+
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+            </a>
+            <a href="@Url.Action("Action", "Controller")" class="btn btn-danger">
+                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+            </a>*@
+            @if (item.acceptedByEmployer == false)
+            {
+            @Html.ActionLink(" ", "Accept", "InvitationDecider", new { name = item.ApplicantName, email = item.ApplicantEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-success glyphicon glyphicon-thumbs-up" })
+            }
+            else
+            {
+                <a>Pending</a>
+            }
+         </td>
+        @*<td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+        </td>*@
     </tr>
 }
 

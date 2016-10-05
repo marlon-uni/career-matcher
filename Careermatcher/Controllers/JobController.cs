@@ -43,16 +43,18 @@ namespace Careermatcher.Controllers
 
             MatchDBContext dbMatch = new MatchDBContext();
             //old matches
-            var amp = dbMatch.Matches.Where(x => (x.EmployerEmailAddress.Equals(User.Identity.Name))).Select(x => x.ApplicantEmailAddress).ToArray();
+            //var thisEmployersMatches = dbMatch.Matches.Where(x => (x.EmployerEmailAddress.Equals(User.Identity.Name))).Select(x => x.ApplicantEmailAddress).ToArray();
+            var thisEmployersMatches = dbMatch.Matches.Where(x => (x.EmployerEmailAddress.Equals(User.Identity.Name)));
+            var listOfExisingApplicantNames= thisEmployersMatches.Select(x => x.ApplicantEmailAddress).ToArray();
             //var all = amp.Select(x =>x.ApplicantEmailAddress);
             //var result2filtered = ;
             var result3 = from p in result2
-                          where !amp.Any(val => p.email.Contains(val))
+                          where !listOfExisingApplicantNames.Any(val => p.email.Contains(val))
                           select p;
 
             if(result3.Count()==0)
             {
-                return View(dbMatch.Matches.ToList());
+                return View(thisEmployersMatches.ToList());
             }
             CultureInfo provider = CultureInfo.InvariantCulture;
             DateTime jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
@@ -425,7 +427,18 @@ namespace Careermatcher.Controllers
             return lstChild;
         }
 
-
+        public String Accept()
+        {
+            //MatchDBContext dbMatch = new MatchDBContext();
+            //CultureInfo provider = CultureInfo.InvariantCulture;
+            //DateTime jobPublishdate = DateTime.ParseExact(PublishDate, "MM/dd/yyyy HHH:mm:ss", provider);
+            //Match applicant = dbMatch.Matches.Find(User.Identity.Name, JobTitle, jobPublishdate.ToString(), ApplicantEmailAddress);
+            //applicant.acceptedByEmployer = true;
+            //dbMatch.Entry(applicant).State = EntityState.Modified;
+            //dbMatch.SaveChanges();
+            return "dfdsf";
+            //return RedirectToAction("eligibleAppliacants,Job");
+        }
 
     }
 }
