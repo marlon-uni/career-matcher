@@ -136,8 +136,60 @@ namespace Careermatcher.Controllers
         public ActionResult ApplicantMatches()
         {
             MatchDBContext dbMatch = new MatchDBContext();
+            JobDBContext dbJob = new JobDBContext();
+            Applicant applicant = db.Applicants.Find(User.Identity.Name);
+            var requriedEducationarray = applicant.Education.Split('|');
+            var requriedIntrestedJobsarray = applicant.IntrestedJobs.Split('|');
+            //var test = dbApplicant.Applicants.Any(str => str.Education.Split('|').Intersect(education.Split('|')).Any());
+            var result = from p in dbJob.Jobs
+                         where requriedEducationarray.Any(val => p.Education.Contains(val))
+                         select p;
+            //type=job
+            var allPossibleJobs = from p in result
+                          where requriedIntrestedJobsarray.Any(val => p.Tags.Contains(val))
+                          select p;
+            //Job matches that the user already has
             var thisApplicantMatches = dbMatch.Matches.Where(x => (x.ApplicantEmailAddress.Equals(User.Identity.Name)));
-            return View(thisApplicantMatches);
+            //Convert the jobs into matches
+            List<Match> matches=new List<Match>();
+            foreach (var job in allPossibleJobs)
+            {
+                Match match = new Match
+                {
+                    EmployerEmailAddress = job.EmployerEmailAddress,
+                    JobTitle = job.JobTitle,
+                    PublishDate = job.PublishDate,
+                    ApplicantEmailAddress = User.Identity.Name,
+                    ApplicantName = applicant.firstName + " " + applicant.lastName,
+                    indifferenceInEducationRequirment = 0,
+                    indiffernceInIntrestedJobsRequirment=0,
+                    acceptedByApplicant=false,
+                    acceptedByEmployer=false,
+                    rejectedByApplicant=false,
+                    rejectedByEmployer=false
+                };
+                matches.Add(match);
+            }
+            //Now start removing existing matches
+            //var newMatches = matches.Where(y => (thisApplicantMatches.Any(z => z.JobTitle != y.JobTitle))&&
+            //thisApplicantMatches.Any(z => z.PublishDate != y.PublishDate));
+            //var matchesAll = thisApplicantMatches.Select(a => new { a.JobTitle, a.EmployerEmailAddress, a.PublishDate });
+            //var toAddMatches = matches.Where(a => !matchesAll.Contains(new { a.JobTitle, a.EmployerEmailAddress, a.PublishDate })).ToList();
+            var toAddMatches=matches.Where(sc => !thisApplicantMatches.Any(dc => dc.JobTitle == sc.JobTitle 
+            && dc.PublishDate ==sc.PublishDate && dc.EmployerEmailAddress==sc.EmployerEmailAddress));
+            foreach (var item in toAddMatches)
+            {
+                dbMatch.Matches.Add(item);
+            }
+
+            dbMatch.SaveChanges();
+            var thisApplicantMatches2 = dbMatch.Matches.Where(x => (x.ApplicantEmailAddress.Equals(User.Identity.Name)));
+            // Only showing matches which were not rejected by this employer
+            var filteredBasedOnRejectedByEmployer = thisApplicantMatches2.Where(x => x.rejectedByEmployer == false);
+            // Only showing matches which were not rejected by an applicant
+            var filteredBasedOnRejectedByApplicantList = filteredBasedOnRejectedByEmployer.Where(x => x.rejectedByEmployer == false);
+            //return View(thisApplicantMatches);
+            return View(filteredBasedOnRejectedByApplicantList.ToList());
         }
     }
 }

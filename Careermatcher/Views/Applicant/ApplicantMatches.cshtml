@@ -37,7 +37,20 @@
             @Html.DisplayFor(modelItem => item.indiffernceInIntrestedJobsRequirment)
         </td>
         <td>
-            @Html.ActionLink(" ", "Accept", "InvitationDecider", new { name = item.ApplicantName, email = item.ApplicantEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-success glyphicon glyphicon-thumbs-up" })
+            @if (item.acceptedByApplicant==false)
+            {
+            @Html.ActionLink(" ", "AcceptedByApplicant", "InvitationDecider", new { name = item.ApplicantName, email = item.EmployerEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-success glyphicon glyphicon-thumbs-up" })
+
+            @Html.ActionLink(" ", "RejectedByApplicant", "InvitationDecider", new { name = item.ApplicantName, email = item.EmployerEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-danger glyphicon glyphicon-thumbs-down" })
+            }
+            else if (item.acceptedByApplicant == true && item.acceptedByEmployer == true)
+            {
+                <a>Matched</a>
+            }
+            else
+            {
+                <a>Pending</a>
+            }
         </td>
         @*<td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

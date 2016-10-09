@@ -28,6 +28,17 @@ namespace Careermatcher.Controllers
             dbMatch.SaveChanges();
             return RedirectToAction("Index", "Job");
         }
+        public ActionResult AcceptedByApplicant(String name, String email, String jobTitle, String dateTime)
+        {
+            MatchDBContext dbMatch = new MatchDBContext();
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime jobPublishdate = DateTime.ParseExact(dateTime, "MM/dd/yyyy HHH:mm:ss", provider);
+            Match applicant = dbMatch.Matches.Find(email, jobTitle, jobPublishdate.ToString(), User.Identity.Name);
+            applicant.acceptedByApplicant = true;
+            dbMatch.Entry(applicant).State = EntityState.Modified;
+            dbMatch.SaveChanges();
+            return RedirectToAction("Index", "Applicant");
+        }
         public ActionResult Reject(String name, String email, String jobTitle, String dateTime)
         {
             MatchDBContext dbMatch = new MatchDBContext();
@@ -38,6 +49,18 @@ namespace Careermatcher.Controllers
             dbMatch.Entry(applicant).State = EntityState.Modified;
             dbMatch.SaveChanges();
             return RedirectToAction("Index", "Job");
+        }
+        public ActionResult RejectedByApplicant(String name, String email, String jobTitle, String dateTime)
+        {
+            MatchDBContext dbMatch = new MatchDBContext();
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime jobPublishdate = DateTime.ParseExact(dateTime, "MM/dd/yyyy HHH:mm:ss", provider);
+            String date = jobPublishdate.ToString();
+            Match applicant = dbMatch.Matches.Find(email, jobTitle, date, User.Identity.Name);
+            applicant.rejectedByApplicant = true;
+            dbMatch.Entry(applicant).State = EntityState.Modified;
+            dbMatch.SaveChanges();
+            return RedirectToAction("Index", "Applicant");
         }
     }
 }

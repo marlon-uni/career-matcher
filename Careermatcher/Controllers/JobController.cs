@@ -63,7 +63,7 @@ namespace Careermatcher.Controllers
             // Only showing matches which were not rejected by an applicant
             var filteredBasedOnRejectedByApplicantList = filteredBasedOnRejectedByEmployer.Where(x => x.rejectedByEmployer == false);
             //list of Applicant names that were not rejected
-            var listOfNonRejectedApplicantNames = filteredBasedOnRejectedByApplicantList.Select(x => x.ApplicantEmailAddress).ToList();
+            //var listOfNonRejectedApplicantNames = filteredBasedOnRejectedByApplicantList.Select(x => x.ApplicantEmailAddress).ToList();
             
             
             //////////////////////////////////////////////
@@ -78,8 +78,8 @@ namespace Careermatcher.Controllers
 
             if(result4.Count()==0)
             {
-                var test1 = thisEmployersMatches.ToList();
-                var test2 = listOfNonRejectedApplicantNames;
+                //var test1 = thisEmployersMatches.ToList();
+                //var test2 = listOfNonRejectedApplicantNames;
                 return View(filteredBasedOnRejectedByApplicantList.ToList());
             }
            
@@ -116,7 +116,7 @@ namespace Careermatcher.Controllers
             dbMatch.SaveChanges();
             
             //return View(dbMatch.Matches.ToList());
-            return View(listOfNonRejectedApplicantNames);
+            return View(filteredBasedOnRejectedByApplicantList.ToList());
 
         }
 
