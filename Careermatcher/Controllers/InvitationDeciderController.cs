@@ -28,5 +28,16 @@ namespace Careermatcher.Controllers
             dbMatch.SaveChanges();
             return RedirectToAction("Index", "Job");
         }
+        public ActionResult Reject(String name, String email, String jobTitle, String dateTime)
+        {
+            MatchDBContext dbMatch = new MatchDBContext();
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime jobPublishdate = DateTime.ParseExact(dateTime, "MM/dd/yyyy HHH:mm:ss", provider);
+            Match applicant = dbMatch.Matches.Find(User.Identity.Name, jobTitle, jobPublishdate.ToString(), email);
+            applicant.rejectedByEmployer = true;
+            dbMatch.Entry(applicant).State = EntityState.Modified;
+            dbMatch.SaveChanges();
+            return RedirectToAction("Index", "Job");
+        }
     }
 }

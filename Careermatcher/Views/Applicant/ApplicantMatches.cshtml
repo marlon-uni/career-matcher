@@ -7,9 +7,9 @@
 
 <h2>ApplicantMatches</h2>
 
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
 <table class="table">
     <tr>
         <th>
@@ -36,12 +36,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.indiffernceInIntrestedJobsRequirment)
         </td>
-
         <td>
+            @Html.ActionLink(" ", "Accept", "InvitationDecider", new { name = item.ApplicantName, email = item.ApplicantEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-success glyphicon glyphicon-thumbs-up" })
+        </td>
+        @*<td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+        </td>*@
     </tr>
 }
 

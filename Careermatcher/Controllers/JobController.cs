@@ -40,27 +40,52 @@ namespace Careermatcher.Controllers
             var result2 = from p in result
                           where requriedIntrestedJobsarray.Any(val => p.IntrestedJobs.Contains(val))
                          select p;
+            
 
             MatchDBContext dbMatch = new MatchDBContext();
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
+            String theDate = jobPublishdate.ToString();
+
             //old matches
             //var thisEmployersMatches = dbMatch.Matches.Where(x => (x.EmployerEmailAddress.Equals(User.Identity.Name))).Select(x => x.ApplicantEmailAddress).ToArray();
-            var thisEmployersMatches = dbMatch.Matches.Where(x => (x.EmployerEmailAddress.Equals(User.Identity.Name)));
-            var listOfExisingApplicantNames= thisEmployersMatches.Select(x => x.ApplicantEmailAddress).ToArray();
+            //Filtering based on employer id and the job title
+            var thisEmployersMatches = dbMatch.Matches.Where(x => ((x.EmployerEmailAddress.Equals(User.Identity.Name))
+            &&(x.JobTitle.Equals(jobTitle))));
+
+            //Filtering based on job pubish date as it a unique identifier
+            var filteredBasedOnJobPublishedDate = thisEmployersMatches.Where(x => x.PublishDate.Equals(theDate));
+
+            ///////////For filtering  rejected Applicants to display ONLY FOR returning to view//////////////
+            
+            // Only showing matches which were not rejected by this employer
+            var filteredBasedOnRejectedByEmployer = filteredBasedOnJobPublishedDate.Where(x => x.rejectedByEmployer == false);
+            // Only showing matches which were not rejected by an applicant
+            var filteredBasedOnRejectedByApplicantList = filteredBasedOnRejectedByEmployer.Where(x => x.rejectedByEmployer == false);
+            //list of Applicant names that were not rejected
+            var listOfNonRejectedApplicantNames = filteredBasedOnRejectedByApplicantList.Select(x => x.ApplicantEmailAddress).ToList();
+            
+            
+            //////////////////////////////////////////////
+            //Gives a list of applicants to ignore for adding to the db
+            var listOfExisingApplicantNames= filteredBasedOnJobPublishedDate.Select(x => x.ApplicantEmailAddress).ToArray();
             //var all = amp.Select(x =>x.ApplicantEmailAddress);
             //var result2filtered = ;
-            var result3 = from p in result2
+
+            var result4 = from p in result2
                           where !listOfExisingApplicantNames.Any(val => p.email.Contains(val))
                           select p;
 
-            if(result3.Count()==0)
+            if(result4.Count()==0)
             {
-                return View(thisEmployersMatches.ToList());
+                var test1 = thisEmployersMatches.ToList();
+                var test2 = listOfNonRejectedApplicantNames;
+                return View(filteredBasedOnRejectedByApplicantList.ToList());
             }
-            CultureInfo provider = CultureInfo.InvariantCulture;
-            DateTime jobPublishdate = DateTime.ParseExact(time, "MM/dd/yyyy HHH:mm:ss", provider);
+           
 
 
-            foreach (var item in result3)
+            foreach (var item in result4)
             {
                 //int count = requriedEducationarray.Where(val => item.Education.Contains(val)).Count();
                 var educationListOfCurrentApplicant = item.Education.Split('|');
@@ -75,7 +100,7 @@ namespace Careermatcher.Controllers
                     JobTitle = jobTitle,
                     ApplicantEmailAddress = item.email,
                     PublishDate= jobPublishdate.ToString(),
-                    ApplicantName=item.firstName+item.lastName,
+                    ApplicantName=item.firstName+" "+item.lastName,
                     indifferenceInEducationRequirment = requriedEducationarray.Length- countSimilarityEducation,
                     indiffernceInIntrestedJobsRequirment = requriedIntrestedJobsarray.Length - countSimilarityIntrestedJobs,
                     acceptedByApplicant=false,
@@ -89,8 +114,9 @@ namespace Careermatcher.Controllers
                 
             }
             dbMatch.SaveChanges();
-
-            return View(dbMatch.Matches.ToList());
+            
+            //return View(dbMatch.Matches.ToList());
+            return View(listOfNonRejectedApplicantNames);
 
         }
 

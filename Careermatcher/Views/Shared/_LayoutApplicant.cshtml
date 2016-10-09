@@ -17,14 +17,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Career Matcher-Applicant", "Index", "Applicant", new { area = "" }, new { @class = "navbar-brand" })
+                @*@Html.ActionLink("Career Matcher-Applicant", "Index", "Applicant", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Applicant", "Index", "Applicant")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Applicant")</li>
                     <li>@Html.ActionLink("Profile", "Details", "Applicant")</li>
-                    <li>@Html.ActionLink("View Jobs", "Index", "Job")</li>
-                    <li>@Html.ActionLink("Create a New Job listing", "Index2", "Job")</li>
+                    <li>@Html.ActionLink("View Matches", "ApplicantMatches", "Applicant")</li>
+                    @*<li>@Html.ActionLink("Create a New Job listing", "Index2", "Job")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
