@@ -56,6 +56,10 @@
             @Html.ActionLink(" ", "Accept", "InvitationDecider", new { name = item.ApplicantName, email = item.ApplicantEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-success glyphicon glyphicon-thumbs-up" })
             @Html.ActionLink(" ", "Reject", "InvitationDecider", new { name = item.ApplicantName, email = item.ApplicantEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-danger glyphicon glyphicon-thumbs-down" })
             }
+            else if(item.acceptedByEmployer==true&&item.acceptedByApplicant==true)
+            {
+                @Html.ActionLink(" ", "Accept", "InvitationDecider", new { name = item.ApplicantName, email = item.ApplicantEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-warning glyphicon glyphicon-ok-sign" })
+            }
             else
             {
                 <a>Pending</a>
