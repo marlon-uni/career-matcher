@@ -154,6 +154,15 @@ namespace Careermatcher.Controllers
             List<Match> matches=new List<Match>();
             foreach (var job in allPossibleJobs)
             {
+                var educationListOfCurrentApplicant = job.Education.Split('|');
+                var countSimilarityEducation = requriedEducationarray.Intersect(educationListOfCurrentApplicant).Count();
+
+                var intrestedJobsListOfCurrentApplicant = job.Tags.Split('|');
+                var countSimilarityIntrestedJobs = requriedIntrestedJobsarray.Intersect(intrestedJobsListOfCurrentApplicant).Count();
+                var startScore = 5;
+                var a1 = requriedEducationarray.Length - countSimilarityEducation;
+                var a2 = requriedIntrestedJobsarray.Length - countSimilarityIntrestedJobs;
+                var overAll = startScore - (a1 + a2);
                 Match match = new Match
                 {
                     EmployerEmailAddress = job.EmployerEmailAddress,
@@ -161,7 +170,7 @@ namespace Careermatcher.Controllers
                     PublishDate = job.PublishDate,
                     ApplicantEmailAddress = User.Identity.Name,
                     ApplicantName = applicant.firstName + " " + applicant.lastName,
-                    overAllScore = 5,
+                    overAllScore = overAll,
                     acceptedByApplicant=false,
                     acceptedByEmployer=false,
                     rejectedByApplicant=false,

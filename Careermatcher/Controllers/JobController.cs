@@ -135,7 +135,8 @@ namespace Careermatcher.Controllers
             //objData.ParentDataModel = GetParentData();
             //objData.ClildDataModel = GetChildData();
             ctr++;
-            return View(db.Jobs.ToList());
+            var thisEmployersJobs = db.Jobs.Where(x=>(x.EmployerEmailAddress.Equals(User.Identity.Name)));
+            return View(thisEmployersJobs.ToList());
 
             // return View(objData);
         }

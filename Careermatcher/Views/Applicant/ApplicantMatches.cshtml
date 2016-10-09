@@ -16,11 +16,11 @@
             @Html.DisplayNameFor(model => model.JobTitle)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.indifferenceInEducationRequirment)
+            @Html.DisplayNameFor(model => model.overAllScore)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.indiffernceInIntrestedJobsRequirment)
-        </th>
+        </th>*@
  
         <th></th>
     </tr>
@@ -31,11 +31,25 @@
             @Html.DisplayFor(modelItem => item.JobTitle)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.indifferenceInEducationRequirment)
+            @if (item.overAllScore > 0)
+            {
+                for (int i = 0; i < item.overAllScore + 1; i++)
+                {
+                    @*<a href="#">*@
+                    <span class="glyphicon glyphicon-briefcase"></span>
+                        @*</a>*@
+                }
+            }
+            else
+            {
+                @*<a href="#">*@
+                <span class="glyphicon glyphicon-briefcase"></span>
+                    @*</a>*@
+            }
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.indiffernceInIntrestedJobsRequirment)
-        </td>
+        </td>*@
         <td>
             @if (item.acceptedByApplicant==false)
             {
