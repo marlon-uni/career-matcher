@@ -16,6 +16,9 @@
         <th>
             @Html.DisplayNameFor(model => model.ApplicantEmailAddress)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.overAllScore)
+        </th>
         @*<th>
             @Html.DisplayNameFor(model => model.indifferenceInEducationRequirment)
         </th>
@@ -26,13 +29,31 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model.OrderBy(model=>model.indifferenceInEducationRequirment)) {
+@foreach (var item in Model.OrderBy(model=>model.overAllScore)) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ApplicantName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ApplicantEmailAddress)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.overAllScore)*@
+            @if (item.overAllScore > 0)
+            {
+                for (int i = 0; i < item.overAllScore + 1; i++)
+                {
+                    <a href="#">
+                        <span class="glyphicon glyphicon-briefcase"></span>
+                    </a>
+                }
+            }
+            else
+            {
+                <a href="#">
+                    <span class="glyphicon glyphicon-briefcase"></span>
+                </a>
+            }
         </td>
         @*<td>
             @Html.DisplayFor(modelItem => item.indiffernceInIntrestedJobsRequirment)
@@ -41,16 +62,7 @@
             @Html.DisplayFor(modelItem => item.indifferenceInEducationRequirment)
         </td>*@
         <td>
-            @*<input type="submit" class="btn btn-primary btn-xm " value="Accept">
-            <br />
-            <input type="submit" class="btn btn-primary btn-xm glyphicon " value="Decline">*@
-            @*<a href="@Url.Action("Accept", "InvitationDecider", new { id = "apples" })" class="btn btn-success">
 
-                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-            </a>
-            <a href="@Url.Action("Action", "Controller")" class="btn btn-danger">
-                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-            </a>*@
             @if (item.acceptedByEmployer == false)
             {
             @Html.ActionLink(" ", "Accept", "InvitationDecider", new { name = item.ApplicantName, email = item.ApplicantEmailAddress, jobTitle = item.JobTitle, dateTime = item.PublishDate.AsDateTime() }, new { @class = "btn btn-success glyphicon glyphicon-thumbs-up" })

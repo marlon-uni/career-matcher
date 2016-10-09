@@ -93,6 +93,11 @@ namespace Careermatcher.Controllers
 
                 var intrestedJobsListOfCurrentApplicant = item.IntrestedJobs.Split('|');
                 var countSimilarityIntrestedJobs = requriedIntrestedJobsarray.Intersect(intrestedJobsListOfCurrentApplicant).Count();
+                //calculating score////
+                var startScore = 5;
+                var a1 = requriedEducationarray.Length - countSimilarityEducation;
+                var a2 =  requriedIntrestedJobsarray.Length - countSimilarityIntrestedJobs;
+                var overAll = startScore-(a1 + a2);
 
                 Match match = new Match
                 {
@@ -101,8 +106,7 @@ namespace Careermatcher.Controllers
                     ApplicantEmailAddress = item.email,
                     PublishDate= jobPublishdate.ToString(),
                     ApplicantName=item.firstName+" "+item.lastName,
-                    indifferenceInEducationRequirment = requriedEducationarray.Length- countSimilarityEducation,
-                    indiffernceInIntrestedJobsRequirment = requriedIntrestedJobsarray.Length - countSimilarityIntrestedJobs,
+                    overAllScore=overAll,
                     acceptedByApplicant=false,
                     acceptedByEmployer=false,
                     rejectedByApplicant=false,

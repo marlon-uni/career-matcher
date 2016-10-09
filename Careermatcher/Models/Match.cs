@@ -25,10 +25,11 @@ namespace Careermatcher.Models
         public String ApplicantEmailAddress { get; set; }
         [DisplayName("Applicant's name")]
         public String ApplicantName { get; set; }
-        [DisplayName("Education in-similarity score")]
-        public int indifferenceInEducationRequirment { get; set; }
-        [DisplayName("Job intrest in-similarity score")]
-        public int indiffernceInIntrestedJobsRequirment { get; set; }
+        //[DisplayName("Education in-similarity score")]
+        //public int indifferenceInEducationRequirment { get; set; }
+        [DisplayName("Score")]
+        public int overAllScore { get; set; }
+        //public int indiffernceInIntrestedJobsRequirment { get; set; }
         public bool acceptedByApplicant { get; set; }
         public bool acceptedByEmployer { get; set; }
         public bool rejectedByApplicant { get; set; }
