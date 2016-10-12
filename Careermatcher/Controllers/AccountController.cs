@@ -163,6 +163,10 @@ namespace Careermatcher.Controllers
                 String usertype= (String)Session["userValue"];
                 var user = new ApplicationUser { Id=model.Email,UserName = model.Email, Email = model.Email };
                 //var user2 = new Employee { email = model.Email, firstName = model.Email };
+                if (UserManager.FindByName(model.Email) != null)
+                {
+                    return RedirectToAction("Index", "DirectTo");
+                }
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

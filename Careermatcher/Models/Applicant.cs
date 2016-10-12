@@ -28,6 +28,10 @@ namespace Careermatcher.Models
         public String Education { get; set; }
         [DisplayName("Job tags")]
         public String IntrestedJobs { get; set; }
+        [DisplayName("Please upload Resume")]
+        public String Path2Resume { get; set; }
+        [DisplayName("Please upload a Profile picture")]
+        public String Path2Photo { get; set; }
     }
     public class ApplicantDBContext : DbContext
     {

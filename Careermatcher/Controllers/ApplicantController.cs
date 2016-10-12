@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Careermatcher.Models;
+using System.IO;
 
 namespace Careermatcher.Controllers
 {
@@ -55,8 +56,22 @@ namespace Careermatcher.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "email,firstName,lastName,phoneNumber,Education,IntrestedJobs")] Applicant applicant)
+        public ActionResult Create([Bind(Include = "email,firstName,lastName,phoneNumber,Education,IntrestedJobs")] Applicant applicant, HttpPostedFileBase file,HttpPostedFileBase photo)
         {
+            string pathToCreateResume = "~/FolderOfApplicants/" + applicant.email+ "/Resume/";
+            string pathToCreateProfile = "~/FolderOfApplicants/" + applicant.email + "/Profile/";
+            //string pathToCreate = "~/Applicant/Resume/" + applicant.email;
+            Directory.CreateDirectory(Server.MapPath(pathToCreateResume));
+            Directory.CreateDirectory(Server.MapPath(pathToCreateProfile));
+
+            string path = Server.MapPath("~/FolderOfApplicants/" + applicant.email+ "/Resume/" + file.FileName);
+            file.SaveAs(path);
+            string path2 = Server.MapPath("~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName);
+            file.SaveAs(path2);
+            applicant.Path2Photo = path2;
+            
+
+            ViewBag.Path = path;
             if (ModelState.IsValid)
             {
                 db.Applicants.Add(applicant);

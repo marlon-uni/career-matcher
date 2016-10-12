@@ -90,7 +90,7 @@ namespace Careermatcher.Controllers
             {
                 db.Employers.Add(employer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("HomePage");
             }
 
             return View(employer);

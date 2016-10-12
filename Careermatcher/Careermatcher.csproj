@@ -315,10 +315,10 @@
     <Content Include="Views\Job\getJobAndEducationInformation.cshtml" />
     <Content Include="Views\Job\eligibleApplicants.cshtml" />
     <Content Include="Views\Applicant\ApplicantMatches.cshtml" />
+    <Content Include="Views\InvitationDecider\ViewPotentialApplicant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\InvitationDecider\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

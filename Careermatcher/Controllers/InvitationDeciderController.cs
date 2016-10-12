@@ -62,5 +62,11 @@ namespace Careermatcher.Controllers
             dbMatch.SaveChanges();
             return RedirectToAction("Index", "Applicant");
         }
+        public ActionResult ViewPotentialApplicant(String name, String email, String jobTitle, String dateTime)
+        {
+            ApplicantDBContext dbApplicant = new ApplicantDBContext();
+            Applicant applicant = dbApplicant.Applicants.Find(email);
+            return View(applicant);
+        }
     }
 }

@@ -2090,9 +2090,12 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary {
-  color: #ffffff;
-  background-color: #428bca;
-  border-color: #357ebd;
+   
+  color: white;
+  background-color: #FF3B3F;
+  border-color: #FF3B3F;
+  width:100%;
+  height:100px;
 }
 
 .btn-primary:hover,
@@ -4929,12 +4932,49 @@ a.list-group-item.active > .badge,
 
 .jumbotron {
   padding: 30px;
-  margin-bottom: 30px;
+  margin: 5px;
+  margin-top:10px;
   font-size: 21px;
   font-weight: 200;
   line-height: 2.1428571435;
   color: inherit;
-  background-color: #eeeeee;
+  background-color: #EFEFEF;
+  width:99.45%;
+  border:1px;
+  border-style:solid;
+  border-color:#e3e3e3;
+  border-radius:4px;
+}
+ .jumbotron3 {
+  width: 31%;
+  padding: 10px;
+  padding-right:1%;
+  padding-left:1%;
+  float:left;
+  margin:5px;
+  line-height: 2.1428571435;
+  color: inherit;
+  background-color: #EFEFEF;
+  border:1px;
+  border-style:solid;
+  border-color:#e3e3e3;
+  border-radius:4px;
+}
+
+.jumbotron2 {
+  width: 31%;
+  padding: 10px;
+  padding-right:1%;
+   padding-left:1%;
+  float:left;
+  margin: 5px;
+  line-height: 2.1428571435;
+  color: inherit;
+  background-color: #EFEFEF;
+  border:1px;
+  border-style:solid;
+  border-color:#e3e3e3;
+  border-radius:4px;
 }
 
 .jumbotron h1 {
@@ -6813,5 +6853,28 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+ 
+.hp-title {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:50px;
+   
+}
+.hp-title2 {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:35px;
+   
+}
+.title-color {
+    color:#FF3B3F;
+}
+.blt-pnt {
+    list-style-type:square;
+}
+
+
+
+.carouselhome {
+  float:left;
+}
 
 }

@@ -7,7 +7,7 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Applicant", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -66,7 +66,19 @@
         </div>*@
         <input type="hidden" name="Education" value="@ViewBag.Education" />
         <input type="hidden" name="IntrestedJobs" value="@ViewBag.IntrestedJobs" />
-
+        <div class="form-group">
+           @Html.LabelFor(model => model.Path2Resume, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="file" id="file" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Path2Photo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="photo" id="photo" />
+            </div>
+        </div>
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
