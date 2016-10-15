@@ -208,7 +208,6 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Applicant.cs" />
-    <Compile Include="Models\CreateApplicantViewModel.cs" />
     <Compile Include="Models\DropDown.cs" />
     <Compile Include="Models\DropDown_Collection.cs" />
     <Compile Include="Models\Employer.cs" />

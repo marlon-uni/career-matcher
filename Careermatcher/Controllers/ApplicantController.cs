@@ -20,19 +20,20 @@ namespace Careermatcher.Controllers
         [Authorize(Roles = "Applicant")]
         public ActionResult Index()
         {
-            //Applicant applicant = db.Applicants.Find(User.Identity.Name);
-            //if (applicant == null)
-            //    return RedirectToAction("Create", "Applicant");
-            //return View(db.Applicants.ToList());
-            try
-            {
-                Applicant applicant = db.Applicants.Find(User.Identity.Name);
-                return View(db.Applicants.ToList());
-            }
-            catch
-            {
+            Applicant applicant = db.Applicants.Find(User.Identity.Name);
+            if (applicant == null)
                 return RedirectToAction("Create", "Applicant");
-            }
+            return View(db.Applicants.ToList());
+            //try
+            //{
+            //   // Applicant applicant2 = db.Applicants.Where(x=>(x.email==""));
+            //    Applicant applicant = db.Applicants.Find(User.Identity.Name);
+            //    return View(db.Applicants.ToList());
+            //}
+            //catch
+            //{
+            //    return RedirectToAction("Create", "Applicant");
+            //}
         }
 
         // GET: Applicant/Details/5
@@ -57,7 +58,7 @@ namespace Careermatcher.Controllers
              ViewBag.Education = "A";
              ViewBag.IntrestedJobs = "A";
             ViewBag.phoneNumber = 00;
-            // Applicant applicant = new Applicant { email = User.Identity.Name ,Education="A",IntrestedJobs="B" };
+             Applicant applicant = new Applicant { email = User.Identity.Name ,Education="A",IntrestedJobs="B" };
             // return View(applicant);
             return View();
 
@@ -65,8 +66,8 @@ namespace Careermatcher.Controllers
         public ActionResult CreateWithError(String inValidFile)
         {
             ViewBag.Identification = User.Identity.Name;
-            ViewBag.Education = "A";
-            ViewBag.IntrestedJobs = "A";
+            ViewBag.Education = "";
+            ViewBag.IntrestedJobs = "";
             ViewBag.phoneNumber = 00;
             ViewBag.Error = inValidFile;
             if(inValidFile.Equals("RESUME"))
@@ -118,6 +119,7 @@ namespace Careermatcher.Controllers
             //Only adds a picture id user has added one
             if (!picExtention.Equals(""))
             {
+                //resize profile picture
                 string path2 = Server.MapPath("~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName);
                 //file.SaveAs(path2);
                 //applicant.Path2Photo = path2;
@@ -125,6 +127,11 @@ namespace Careermatcher.Controllers
                 WebImage profilePic = new WebImage(photo.InputStream);
                 profilePic.Resize(350, 350);
                 profilePic.Save(path2);
+                applicant.Path2Photo = path2;//adds path to image
+            }
+            else
+            {
+                applicant.Path2Photo = "";//puts an empty path to profile image if the user has not givin a profile image
             }
 
             ViewBag.Path = path;

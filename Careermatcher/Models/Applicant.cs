@@ -36,7 +36,5 @@ namespace Careermatcher.Models
     public class ApplicantDBContext : DbContext
     {
         public DbSet<Applicant> Applicants { get; set; }
-
-        public System.Data.Entity.DbSet<Careermatcher.Models.CreateApplicantViewModel> CreateApplicantViewModels { get; set; }
     }
 }
