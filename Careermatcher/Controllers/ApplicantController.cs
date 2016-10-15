@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Careermatcher.Models;
 using System.IO;
+using System.Web.Helpers;
 
 namespace Careermatcher.Controllers
 {
@@ -53,17 +54,28 @@ namespace Careermatcher.Controllers
         public ActionResult Create()
         {
              ViewBag.Identification = User.Identity.Name;
-             //ViewBag.Education = "A";
-            // ViewBag.IntrestedJobs = "A";
+             ViewBag.Education = "A";
+             ViewBag.IntrestedJobs = "A";
             ViewBag.phoneNumber = 00;
             // Applicant applicant = new Applicant { email = User.Identity.Name ,Education="A",IntrestedJobs="B" };
             // return View(applicant);
             return View();
 
         }
-        public String CreateWithError(String inValidFile)
+        public ActionResult CreateWithError(String inValidFile)
         {
-            return inValidFile;
+            ViewBag.Identification = User.Identity.Name;
+            ViewBag.Education = "A";
+            ViewBag.IntrestedJobs = "A";
+            ViewBag.phoneNumber = 00;
+            ViewBag.Error = inValidFile;
+            if(inValidFile.Equals("RESUME"))
+                ViewBag.Error = "Please make sure your resume is a PDF";
+            if (inValidFile.Equals("IMAGE"))
+                ViewBag.Error = "Supported image formats for your profile picture are jpg,jpeg,tiff,tif,gif and png";
+            if (inValidFile.Equals("RESUME MISSING"))
+                ViewBag.Error = "You must upload a Resume in PDF format";
+            return View("Create");
         }
 
         // POST: Applicant/Create
@@ -73,17 +85,24 @@ namespace Careermatcher.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "email,firstName,lastName,phoneNumber,Education,IntrestedJobs")] Applicant applicant, HttpPostedFileBase file,HttpPostedFileBase photo)
         {
+            String resumeExtention = "";
+            String picExtention = "";
+            //Check to see if user uploaded a resume
+            if (file==null)
+                return RedirectToAction("CreateWithError", new { inValidFile = "RESUME MISSING" });
+            else
+                resumeExtention = System.IO.Path.GetExtension(file.FileName);
+            if (photo==null)
+                return RedirectToAction("CreateWithError", new { inValidFile = "IMAGE MISSING" });
+            else
+                picExtention = System.IO.Path.GetExtension(photo.FileName);
             //Check to see if the resume is a pdf
-            String resumeExtention = System.IO.Path.GetExtension(file.FileName);
-            String picExtention = System.IO.Path.GetExtension(photo.FileName);
             if (!resumeExtention.Equals(".pdf"))
-                return RedirectToAction("CreateWithError", new { inValidFile="PDF only"});
-            //if (!picExtention.Equals(".jpg") || !picExtention.Equals(".jpeg") || !picExtention.Equals(".gif") ||
-            //    !picExtention.Equals(".jif") || !picExtention.Equals(".png"))
-            //    return RedirectToAction("CreateRetry", new { inValidFile = "invalid image format" });
+                return RedirectToAction("CreateWithError", new { inValidFile="RESUME INVALID"});
+            //Check to see if the image has valid format
             bool validImage = IsValidImageExtension(picExtention);
             if (validImage==false)
-                return RedirectToAction("CreateWithError", new { inValidFile = "invalid image format" });
+                return RedirectToAction("CreateWithError", new { inValidFile = "IMAGE" });
 
 
             //If files are fine then continue
@@ -95,10 +114,18 @@ namespace Careermatcher.Controllers
 
             string path = Server.MapPath("~/FolderOfApplicants/" + applicant.email+ "/Resume/" + file.FileName);
             file.SaveAs(path);
-            string path2 = Server.MapPath("~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName);
-            file.SaveAs(path2);
-            applicant.Path2Photo = path2;
-            
+            applicant.Path2Resume = path;
+            //Only adds a picture id user has added one
+            if (!picExtention.Equals(""))
+            {
+                string path2 = Server.MapPath("~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName);
+                //file.SaveAs(path2);
+                //applicant.Path2Photo = path2;
+
+                WebImage profilePic = new WebImage(photo.InputStream);
+                profilePic.Resize(350, 350);
+                profilePic.Save(path2);
+            }
 
             ViewBag.Path = path;
             if (ModelState.IsValid)

@@ -6,7 +6,10 @@
 }
 
 <h2>Profile</h2>
-@*<p class="alert alert-danger">There was an error updating your details.</p>*@
+@if (ViewBag.Error != null)
+{
+    <p class="alert alert-danger">@ViewBag.Error</p>
+}
 @using (Html.BeginForm("Create", "Applicant", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -62,7 +65,7 @@
                 @Html.ValidationMessageFor(model => model.IntrestedJobs, "", new { @class = "text-danger" })
             </div>
         </div>*@
-        <span class="glyphicon glyphicon-briefcase"></span> 
+        
         <input type="hidden" name="Education" value="@ViewBag.Education" />
         <input type="hidden" name="IntrestedJobs" value="@ViewBag.IntrestedJobs" />
         <div class="form-group">
