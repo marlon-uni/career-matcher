@@ -66,6 +66,7 @@ namespace Careermatcher.Controllers
         {
             ApplicantDBContext dbApplicant = new ApplicantDBContext();
             Applicant applicant = dbApplicant.Applicants.Find(email);
+            var dir = new System.IO.DirectoryInfo(Server.MapPath(applicant.Path2Photo));
             return View(applicant);
         }
     }

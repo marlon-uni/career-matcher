@@ -19,10 +19,19 @@ namespace Careermatcher.Controllers
         [Authorize(Roles = "Applicant")]
         public ActionResult Index()
         {
-            Applicant applicant = db.Applicants.Find(User.Identity.Name);
-            if (applicant == null)
+            //Applicant applicant = db.Applicants.Find(User.Identity.Name);
+            //if (applicant == null)
+            //    return RedirectToAction("Create", "Applicant");
+            //return View(db.Applicants.ToList());
+            try
+            {
+                Applicant applicant = db.Applicants.Find(User.Identity.Name);
+                return View(db.Applicants.ToList());
+            }
+            catch
+            {
                 return RedirectToAction("Create", "Applicant");
-            return View(db.Applicants.ToList());
+            }
         }
 
         // GET: Applicant/Details/5
@@ -43,12 +52,18 @@ namespace Careermatcher.Controllers
         // GET: Applicant/Create
         public ActionResult Create()
         {
-            ViewBag.Identification = User.Identity.Name;
-            ViewBag.Education = "A";
-            ViewBag.IntrestedJobs = "A";
-           ViewBag.phoneNumber = 00;
-            Applicant applicant = new Applicant { email = User.Identity.Name ,Education="A",IntrestedJobs="B" };
-            return View(applicant);
+             ViewBag.Identification = User.Identity.Name;
+             //ViewBag.Education = "A";
+            // ViewBag.IntrestedJobs = "A";
+            ViewBag.phoneNumber = 00;
+            // Applicant applicant = new Applicant { email = User.Identity.Name ,Education="A",IntrestedJobs="B" };
+            // return View(applicant);
+            return View();
+
+        }
+        public String CreateWithError(String inValidFile)
+        {
+            return inValidFile;
         }
 
         // POST: Applicant/Create
@@ -58,6 +73,20 @@ namespace Careermatcher.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "email,firstName,lastName,phoneNumber,Education,IntrestedJobs")] Applicant applicant, HttpPostedFileBase file,HttpPostedFileBase photo)
         {
+            //Check to see if the resume is a pdf
+            String resumeExtention = System.IO.Path.GetExtension(file.FileName);
+            String picExtention = System.IO.Path.GetExtension(photo.FileName);
+            if (!resumeExtention.Equals(".pdf"))
+                return RedirectToAction("CreateWithError", new { inValidFile="PDF only"});
+            //if (!picExtention.Equals(".jpg") || !picExtention.Equals(".jpeg") || !picExtention.Equals(".gif") ||
+            //    !picExtention.Equals(".jif") || !picExtention.Equals(".png"))
+            //    return RedirectToAction("CreateRetry", new { inValidFile = "invalid image format" });
+            bool validImage = IsValidImageExtension(picExtention);
+            if (validImage==false)
+                return RedirectToAction("CreateWithError", new { inValidFile = "invalid image format" });
+
+
+            //If files are fine then continue
             string pathToCreateResume = "~/FolderOfApplicants/" + applicant.email+ "/Resume/";
             string pathToCreateProfile = "~/FolderOfApplicants/" + applicant.email + "/Profile/";
             //string pathToCreate = "~/Applicant/Resume/" + applicant.email;
@@ -82,7 +111,13 @@ namespace Careermatcher.Controllers
 
             return View(applicant);
         }
+        private static readonly string[] validExtensions = { ".jpg", ".bmp", ".gif", ".png",".jpeg" }; //  etc
 
+        public static bool IsValidImageExtension(string ext)
+        {
+
+            return validExtensions.Contains(ext);
+        }
         // GET: Applicant/Edit/5
         public ActionResult Edit(string id)
         {

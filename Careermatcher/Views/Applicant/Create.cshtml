@@ -5,15 +5,13 @@
     Layout = "~/Views/Shared/_LayoutApplicant.cshtml";
 }
 
-<h2>Create</h2>
-
+<h2>Profile</h2>
+@*<p class="alert alert-danger">There was an error updating your details.</p>*@
 @using (Html.BeginForm("Create", "Applicant", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Applicant</h4>
-        <hr />
         @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -64,18 +62,21 @@
                 @Html.ValidationMessageFor(model => model.IntrestedJobs, "", new { @class = "text-danger" })
             </div>
         </div>*@
+        <span class="glyphicon glyphicon-briefcase"></span> 
         <input type="hidden" name="Education" value="@ViewBag.Education" />
         <input type="hidden" name="IntrestedJobs" value="@ViewBag.IntrestedJobs" />
         <div class="form-group">
+            
            @Html.LabelFor(model => model.Path2Resume, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="file" id="file" />
+                <input type="file" name="file" id="file" accept="application/pdf"/>
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Path2Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="photo" id="photo" />
+                <input type="file" name="photo" id="photo"accept="image/gif, image/jpeg,image/jif, image/tif,
+                       image/tiff, image/png,image/gif, image/jpg" />
             </div>
         </div>
         
