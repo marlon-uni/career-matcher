@@ -2,81 +2,28 @@
 
 @{
     ViewBag.Title = "ViewPotentialApplicant";
-    Layout = "~/Views/Shared/_LayoutApplicant.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var dosyaYolu = @Url.Content(Model.Path2Photo);
 }
 
-<h2>@Html.DisplayFor(model => model.firstName) @Html.DisplayFor(model => model.lastName)</h2>
-
-<div>
-    <h4>Profile</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.firstName)
-        </dt>
-
-        <dd>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6" >
+           <h3> Applicant's First Name</h3>
             @Html.DisplayFor(model => model.firstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.lastName)
-        </dt>
-
-        <dd>
+            <h3>Applicant's Last Name</h3>
             @Html.DisplayFor(model => model.lastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.phoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.phoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Education)
-        </dt>
-
-        <dd>
+            <h3>Applicant's Education</h3>
             @Html.DisplayFor(model => model.Education)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IntrestedJobs)
-        </dt>
-
-        <dd>
+            <h3>Applicant's Job interests</h3>
             @Html.DisplayFor(model => model.IntrestedJobs)
-        </dd>
+            <h3>View/Download Resume</h3>
+            @Html.ActionLink("Download/View", "Download", new { applicant = Model.email })
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Path2Resume)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Path2Resume)
-            @Html.ActionLink("Download", "Download", new { applicant = Model.email })
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Path2Photo)
-            
-        </dt>
-
-        <dd>
-            @*@Html.DisplayFor(model => model.Path2Photo)*@
+        </div>
+        <div class="col-sm-6">
             <img src=@Url.Content(Model.Path2Photo) alt="IMAGES" />
-        </dd>
-
-    </dl>
+        </div>
+    </div>
 </div>
-<p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.email }) |*@
-    @Html.ActionLink("Back to List", "Index")
-</p>
-@*<img src="@Url.Content(Model.Path2Photo)" width="50" height="60">
-<img src="@Url.Content(ViewBag.Image)" width="50" height="60">
-<div class="col-md-3 "><img src="@Url.Content(Model.Path2Photo)" alt="Image" class="img padding-20" style="max-width:100%;min-width:100%" /></div>*@
