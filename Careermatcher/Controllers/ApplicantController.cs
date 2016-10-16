@@ -119,10 +119,12 @@ namespace Careermatcher.Controllers
             //Only adds a picture id user has added one
             if (!picExtention.Equals(""))
             {
+                String imageExtention = photo.ContentType;
+                imageExtention = imageExtention.Replace("image/", "");
                 //resize profile picture
-                String serverPath2 = "~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName;
-                string path2 = Server.MapPath("~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName);
-                file.SaveAs(path2);
+                String serverPath2 = "~/FolderOfApplicants/" + applicant.email + "/Profile/" + "ProfilePic."+ imageExtention;
+                string path2 = Server.MapPath("~/FolderOfApplicants/" + applicant.email + "/Profile/" + "ProfilePic." + imageExtention); 
+                photo.SaveAs(path2);
                 applicant.Path2Photo = serverPath2;
 
                 //WebImage profilePic = new WebImage(photo.InputStream);
