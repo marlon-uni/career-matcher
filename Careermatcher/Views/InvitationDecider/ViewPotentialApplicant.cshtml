@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "ViewPotentialApplicant";
     Layout = "~/Views/Shared/_LayoutApplicant.cshtml";
+    var dosyaYolu = @Url.Content(Model.Path2Photo);
 }
 
 <h2>@Html.DisplayFor(model => model.firstName) @Html.DisplayFor(model => model.lastName)</h2>
@@ -57,14 +58,17 @@
 
         <dd>
             @Html.DisplayFor(model => model.Path2Resume)
+            @Html.ActionLink("Download", "Download", new { applicant = Model.email })
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Path2Photo)
+            
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Path2Photo)
+            @*@Html.DisplayFor(model => model.Path2Photo)*@
+            <img src=@Url.Content(Model.Path2Photo) alt="IMAGES" />
         </dd>
 
     </dl>
@@ -73,3 +77,6 @@
     @*@Html.ActionLink("Edit", "Edit", new { id = Model.email }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>
+@*<img src="@Url.Content(Model.Path2Photo)" width="50" height="60">
+<img src="@Url.Content(ViewBag.Image)" width="50" height="60">
+<div class="col-md-3 "><img src="@Url.Content(Model.Path2Photo)" alt="Image" class="img padding-20" style="max-width:100%;min-width:100%" /></div>*@

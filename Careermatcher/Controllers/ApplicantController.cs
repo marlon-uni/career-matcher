@@ -112,22 +112,23 @@ namespace Careermatcher.Controllers
             //string pathToCreate = "~/Applicant/Resume/" + applicant.email;
             Directory.CreateDirectory(Server.MapPath(pathToCreateResume));
             Directory.CreateDirectory(Server.MapPath(pathToCreateProfile));
-
-            string path = Server.MapPath("~/FolderOfApplicants/" + applicant.email+ "/Resume/" + file.FileName);
+            String serverPath = "~/FolderOfApplicants/" + applicant.email + "/Resume/" + "Resume.pdf";
+            string path = Server.MapPath("~/FolderOfApplicants/" + applicant.email+ "/Resume/" + "Resume.pdf");
             file.SaveAs(path);
-            applicant.Path2Resume = path;
+            applicant.Path2Resume = serverPath;
             //Only adds a picture id user has added one
             if (!picExtention.Equals(""))
             {
                 //resize profile picture
+                String serverPath2 = "~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName;
                 string path2 = Server.MapPath("~/FolderOfApplicants/" + applicant.email + "/Profile/" + photo.FileName);
-                //file.SaveAs(path2);
-                //applicant.Path2Photo = path2;
+                file.SaveAs(path2);
+                applicant.Path2Photo = serverPath2;
 
-                WebImage profilePic = new WebImage(photo.InputStream);
-                profilePic.Resize(350, 350);
-                profilePic.Save(path2);
-                applicant.Path2Photo = path2;//adds path to image
+                //WebImage profilePic = new WebImage(photo.InputStream);
+                //profilePic.Resize(350, 350);
+                //profilePic.Save(path2);
+                //applicant.Path2Photo = path2;//adds path to image
             }
             else
             {
