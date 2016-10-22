@@ -43,7 +43,7 @@ namespace Careermatcher.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Applicant applicant = db.Applicants.Find(id);
+            Applicant applicant = db.Applicants.Find(User.Identity.Name);
             if (applicant == null)
             {
                 return HttpNotFound();
@@ -158,11 +158,11 @@ namespace Careermatcher.Controllers
         // GET: Applicant/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Applicant applicant = db.Applicants.Find(id);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            Applicant applicant = db.Applicants.Find(User.Identity.Name);
             if (applicant == null)
             {
                 return HttpNotFound();

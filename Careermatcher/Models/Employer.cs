@@ -24,6 +24,9 @@ namespace Careermatcher.Models
         [DisplayName("Email Address")]
         [EmailAddress]
         public string email { get; set; }
+        [DisplayName("Please give a small discription of the Company/business")]
+        [DataType(DataType.MultilineText)]
+        public String Description { get; set; }
         //[Required(ErrorMessage = "Mobile no. is required")]
         //[RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
     }

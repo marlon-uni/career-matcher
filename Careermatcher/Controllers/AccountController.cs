@@ -150,7 +150,6 @@ namespace Careermatcher.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/Register
         [HttpPost]
@@ -165,7 +164,8 @@ namespace Careermatcher.Controllers
                 //var user2 = new Employee { email = model.Email, firstName = model.Email };
                 if (UserManager.FindByName(model.Email) != null)
                 {
-                    return RedirectToAction("Index", "DirectTo");
+                    
+                    return RedirectToAction("Register");
                 }
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

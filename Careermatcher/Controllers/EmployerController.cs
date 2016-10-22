@@ -83,7 +83,7 @@ namespace Careermatcher.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "email,firstName,lastName,Company,Position")] Employer employer)
+        public ActionResult Create([Bind(Include = "email,firstName,lastName,Company,Position,Description")] Employer employer)
         {
             //employer.email = User.Identity.Name;
             if (ModelState.IsValid)
