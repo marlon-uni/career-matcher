@@ -117,13 +117,13 @@ namespace Careermatcher.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "email,firstName,lastName,Company,Position,phoneNumber")] Employer employer)
+        public ActionResult Edit([Bind(Include = "email,firstName,lastName,Company,Position,Description")] Employer employer)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(employer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
             return View(employer);
         }

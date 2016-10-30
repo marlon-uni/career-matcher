@@ -10,7 +10,9 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
+
         <div class="container">
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -22,9 +24,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "HomePage", "Employer")</li>
-                    <li>@Html.ActionLink("Profile", "Index", "Employer")</li>
+                    <li>@Html.ActionLink("Profile", "Details", "Employer")</li>
                     <li>@Html.ActionLink("View Jobs", "Index","Job")</li>
-                    <li>@Html.ActionLink("Create a New Job listing", "Index2", "Job")</li>
+                    <li>@Html.ActionLink("Add Jobs", "Index2", "Job")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

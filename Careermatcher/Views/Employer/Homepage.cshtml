@@ -138,10 +138,13 @@
                 <p>Welcome to Career Matcher!</p>
             </div>
             <div class="well">
-                <p>Click <a href="/Account/Login">Here</a> to Login.</p>
+                <p>Do you want to create a new Job? Click @Html.ActionLink("here", "Index2", "Job") to create a new job.</p>
             </div>
             <div class="well">
-                <p>Not a member? Click <a href="/Home/About">Here</a> to Sign-up now.</p>
+                <p>Do you want to view your current job listings? Click @Html.ActionLink("here", "Index", "Job") to view your job listings.</p>
+            </div>
+            <div class="well">
+                <p>Do you want to view or edit your profile? Click @Html.ActionLink("here", "Index", "Employer") to view/edit your profile.</p>
             </div>
         </div>
         <div class="col-sm-4">

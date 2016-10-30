@@ -39,10 +39,10 @@ namespace Careermatcher.Controllers
         // GET: Applicant/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
             Applicant applicant = db.Applicants.Find(User.Identity.Name);
             if (applicant == null)
             {
@@ -156,7 +156,7 @@ namespace Careermatcher.Controllers
             return validExtensions.Contains(ext);
         }
         // GET: Applicant/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit()
         {
             //if (id == null)
             //{
